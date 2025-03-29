@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        h1 {
+            color: #fff;
+        }
+        .grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .card:hover {
+            background: #6a11cb;
+            color: white;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+        .collapsible {
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            text-align: center;
+            width: 100%;
+        }
+        .content {
+            display: none;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        .content a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+        .content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function toggleFooter() {
+            var content = document.getElementById("footerContent");
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to English Learning App</h1>
+        <div class="grid">
+            <a href="grammar.html" class="card">Grammar</a>
+            <a href="vocabQuiz.html" class="card">Vocab Quiz</a>
+            <a href="vocab.html" class="card">Vocab Practice</a>
+            <a href="sentence.html" class="card">Sentence Correction</a>
+        </div>
+        
+    </div>
+</body>
+</html>

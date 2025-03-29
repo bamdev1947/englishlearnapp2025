@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentence Correction App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        .container {
+            max-width: 700px;
+            margin: 5px auto;
+            padding: 10px;
+            background: linear-gradient(135deg, #ffffff, #e6e6e6);
+            color: black;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 12px 24px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #007bff, #6610f2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #0056b3, #520dc2);
+        }
+        .question-container {
+            margin-top: 20px;
+        }
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .options {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .options input[type='radio'] {
+            margin-right: 10px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .wrong {
+            color: red;
+            font-weight: bold;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: white;
+            color: #4b6cb7;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: #6a11cb;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sentence Correction App</h2>
+        <div id="questions"></div>
+        <button onclick="prevPage()">Previous</button>
+        <button onclick="nextPage()">Next</button>
+        <button onclick="resetQuiz()">Reset</button>
+        <a href="javascript:history.back()" class="back-button">Go Back</a>
+
+    </div>
+    
+    <script>
+        let questions = [
+    {"question": "The employees of this company demand higher salaries for a very long period of time.", "options": ["The employee of this company demand higher salary for a long time.", "The employees of this company demands higher salary for a very long time.", "The employees of this company are demanding higher salaries for a long time.", "The employees of this company have been demanding higher salaries for a very long time."], "answer": 3},
+    {"question": "She go to school every day.", "options": ["She goes to school every day.", "She going to school every day.", "She go school everyday.", "She went to school every day."], "answer": 0},
+    {"question": "He don't like vegetables.", "options": ["He doesn’t like vegetables.", "He don’t likes vegetables.", "He not like vegetables.", "He isn't like vegetables."], "answer": 0},
+    {"question": "They was playing in the park.", "options": ["They were playing in the park.", "They was played in the park.", "They were play in the park.", "They was playing on park."], "answer": 0},
+    {"question": "I has a pet dog.", "options": ["I have a pet dog.", "I had a pet dog.", "I has pet dog.", "I have got a pet dog."], "answer": 0},
+    
+    {"question": "She is cooking dinner when I arrived.", "options": ["She was cooking dinner when I arrived.", "She cooked dinner when I arrive.", "She is cooking dinner when I arrive.", "She cooks dinner when I arrived."], "answer": 0},
+    {"question": "We was late to the meeting.", "options": ["We were late to the meeting.", "We is late to the meeting.", "We be late to the meeting.", "We was lateness to the meeting."], "answer": 0},
+    {"question": "She have a beautiful house.", "options": ["She has a beautiful house.", "She had a beautiful house.", "She having a beautiful house.", "She haves a beautiful house."], "answer": 0},
+    {"question": "They enjoys playing football.", "options": ["They enjoy playing football.", "They enjoying playing football.", "They has enjoy playing football.", "They are enjoys playing football."], "answer": 0},
+    {"question": "I am knowing the answer.", "options": ["I know the answer.", "I known the answer.", "I am knew the answer.", "I am knows the answer."], "answer": 0},
+
+    {"question": "She sings very good.", "options": ["She sings very well.", "She sings very goodly.", "She singing very good.", "She song very good."], "answer": 0},
+    {"question": "I didn't went to the party.", "options": ["I didn't go to the party.", "I not go to the party.", "I hasn't went to the party.", "I don't went to the party."], "answer": 0},
+    {"question": "He is afraid from dogs.", "options": ["He is afraid of dogs.", "He is afraid with dogs.", "He is afraid by dogs.", "He is afraid at dogs."], "answer": 0},
+    {"question": "She doesn't likes coffee.", "options": ["She doesn't like coffee.", "She not likes coffee.", "She do not like coffee.", "She doesn't liked coffee."], "answer": 0},
+    {"question": "The baby cried since two hours.", "options": ["The baby has been crying for two hours.", "The baby cries since two hours.", "The baby was cried since two hours.", "The baby is cry since two hours."], "answer": 0},
+
+    {"question": "My father is older than my uncle.", "options": ["My father is older than my uncle.", "My father is more older than my uncle.", "My father is most older than my uncle.", "My father is much older than my uncle."], "answer": 0},
+    {"question": "The book is too much interesting.", "options": ["The book is very interesting.", "The book is much interesting.", "The book is most interesting.", "The book is too interesting."], "answer": 0},
+    {"question": "He is married with Sarah.", "options": ["He is married to Sarah.", "He is married by Sarah.", "He is married for Sarah.", "He is married in Sarah."], "answer": 0},
+    {"question": "She speaks English good.", "options": ["She speaks English well.", "She speaks English nicely.", "She speaks English perfectly.", "She speaks English better."], "answer": 0},
+    {"question": "I prefer coffee than tea.", "options": ["I prefer coffee to tea.", "I prefer coffee over tea.", "I prefer coffee against tea.", "I prefer coffee more than tea."], "answer": 0},
+
+    {"question": "She is looking forward to meet you.", "options": ["She is looking forward to meeting you.", "She is looking forward to met you.", "She is looking forward meeting you.", "She is looking forward meet you."], "answer": 0},
+    {"question": "Neither of them are coming.", "options": ["Neither of them is coming.", "Neither of them be coming.", "Neither of them was coming.", "Neither of them been coming."], "answer": 0},
+    {"question": "He told that he will come.", "options": ["He said that he will come.", "He told to me that he will come.", "He said me that he will come.", "He said to that he will come."], "answer": 0},
+    {"question": "He suggested me to take a break.", "options": ["He suggested that I take a break.", "He suggested to me that I take a break.", "He suggested I to take a break.", "He suggested me that I take a break."], "answer": 0},
+    {"question": "I want that you help me.", "options": ["I want you to help me.", "I want you help me.", "I want you helping me.", "I want to that you help me."], "answer": 0},
+
+    {"question": "Each of the boys have a book.", "options": ["Each of the boys has a book.", "Each of the boys having a book.", "Each of the boys had a book.", "Each of the boys is having a book."], "answer": 0},
+    {"question": "I am interesting in learning English.", "options": ["I am interested in learning English.", "I am interest in learning English.", "I am interests in learning English.", "I am been interested in learning English."], "answer": 0},
+    {"question": "He said me that he is tired.", "options": ["He told me that he is tired.", "He told that he is tired.", "He tell me that he is tired.", "He told me he is tired."], "answer": 0},
+    {"question": "She has a long hairs.", "options": ["She has long hair.", "She has long hairs.", "She is having long hair.", "She is having a long hairs."], "answer": 0},
+    {"question": "He explained me the problem.", "options": ["He explained the problem to me.", "He explain me the problem.", "He explaining me the problem.", "He explained to me problem."], "answer": 0},
+    {"question": "The company has been facing financial difficulties since two years.", "options": ["The company has been facing financial difficulties for two years.", "The company facing financial difficulties since two years.", "The company faces financial difficulties since two years.", "The company has been faced financial difficulties for two years."], "answer": 0},
+    {"question": "Each of the students have submitted their assignments.", "options": ["Each of the students has submitted their assignments.", "Each of the student have submitted their assignments.", "Each student has submitted their assignments.", "Each of the students submitting their assignments."], "answer": 0},
+    {"question": "Neither Jack nor his friends is going to the party.", "options": ["Neither Jack nor his friends are going to the party.", "Neither Jack nor his friends going to the party.", "Neither Jack nor his friends has been going to the party.", "Neither Jack nor his friends be going to the party."], "answer": 0},
+    {"question": "She is married with a lawyer.", "options": ["She is married to a lawyer.", "She married with a lawyer.", "She has married with a lawyer.", "She is married by a lawyer."], "answer": 0},
+    {"question": "He insisted me to join the meeting.", "options": ["He insisted that I join the meeting.", "He insisted me join the meeting.", "He insisted for me to join the meeting.", "He insisted in me to join the meeting."], "answer": 0},
+    
+    {"question": "The scenery of Switzerland are beautiful.", "options": ["The scenery of Switzerland is beautiful.", "The scenery of Switzerland are beauty.", "The sceneries of Switzerland is beautiful.", "The scenery in Switzerland are beautiful."], "answer": 0},
+    {"question": "She prefers coffee than tea.", "options": ["She prefers coffee to tea.", "She prefers coffee rather than tea.", "She prefers coffee over tea.", "She prefers coffee against tea."], "answer": 0},
+    {"question": "Hardly he had reached the station when the train left.", "options": ["Hardly had he reached the station when the train left.", "Hardly he reached the station when the train left.", "Hardly he has reached the station when the train left.", "Hardly had he reach the station when the train left."], "answer": 0},
+    {"question": "The manager, along with his team, are attending the conference.", "options": ["The manager, along with his team, is attending the conference.", "The manager, along with his team, attending the conference.", "The manager, along with his team, have attending the conference.", "The manager, along with his team, been attending the conference."], "answer": 0},
+    {"question": "She is looking forward to meet you.", "options": ["She is looking forward to meeting you.", "She is looking forward to met you.", "She is looking forward meeting you.", "She is looking forward for meeting you."], "answer": 0},
+
+    {"question": "One of my friend is a doctor.", "options": ["One of my friends is a doctor.", "One of my friend are a doctor.", "One of my friends are doctor.", "One friend of mine is doctor."], "answer": 0},
+    {"question": "The book comprises of five chapters.", "options": ["The book comprises five chapters.", "The book comprises about five chapters.", "The book comprised of five chapters.", "The book comprises for five chapters."], "answer": 0},
+    {"question": "Despite of being intelligent, he failed the exam.", "options": ["Despite being intelligent, he failed the exam.", "Despite of being intelligent, he fails the exam.", "Despite to be intelligent, he failed the exam.", "Despite being intelligent, he was failed the exam."], "answer": 0},
+    {"question": "He is addicted with smoking.", "options": ["He is addicted to smoking.", "He is addicted of smoking.", "He is addicted for smoking.", "He is addicted by smoking."], "answer": 0},
+    {"question": "The new laws will come to effect next month.", "options": ["The new laws will come into effect next month.", "The new laws will comes into effect next month.", "The new laws will coming into effect next month.", "The new laws will come in effect next month."], "answer": 0},
+
+    {"question": "I am confident for my success.", "options": ["I am confident of my success.", "I am confident in my success.", "I am confident to my success.", "I am confident with my success."], "answer": 0},
+    {"question": "She is suffering with fever.", "options": ["She is suffering from fever.", "She is suffering for fever.", "She is suffering to fever.", "She is suffering by fever."], "answer": 0},
+    {"question": "He is good in mathematics.", "options": ["He is good at mathematics.", "He is good to mathematics.", "He is good with mathematics.", "He is good of mathematics."], "answer": 0},
+    {"question": "The accident occurred in 6 p.m.", "options": ["The accident occurred at 6 p.m.", "The accident occurred on 6 p.m.", "The accident occurred by 6 p.m.", "The accident occurred into 6 p.m."], "answer": 0},
+    {"question": "He is one of the best player in the team.", "options": ["He is one of the best players in the team.", "He is one of the best player of the team.", "He is one of the best player in team.", "He is one of the best players of team."], "answer": 0},{"question": "He did not knew the answer.", "options": ["He did not know the answer.", "He do not knew the answer.", "He did not knows the answer.", "He did not known the answer."], "answer": 0},
+     {"question": "Neither of them were available.", "options": ["Neither of them was available.", "Neither of them were available.", "Neither them was available.", "Neither them were available."], "answer": 0},
+    {"question": "She enjoys to play basketball.", "options": ["She enjoys playing basketball.", "She enjoy to play basketball.", "She enjoys to playing basketball.", "She enjoying playing basketball."], "answer": 0},
+    {"question": "The team has won the match yesterday.", "options": ["The team won the match yesterday.", "The team has win the match yesterday.", "The team wins the match yesterday.", "The team was won the match yesterday."], "answer": 0},
+    {"question": "They discussed about the project.", "options": ["They discussed the project.", "They were discussed about the project.", "They discuss about the project.", "They have discussed about the project."], "answer": 0},
+    
+    {"question": "The news are surprising.", "options": ["The news is surprising.", "The news are surprises.", "The news was surprising.", "The news were surprising."], "answer": 0},
+    {"question": "She suggested me to go there.", "options": ["She suggested that I go there.", "She suggested me that go there.", "She suggested to me go there.", "She suggested me going there."], "answer": 0},
+    {"question": "He prevented me to enter the room.", "options": ["He prevented me from entering the room.", "He prevented me enter the room.", "He prevented me entering the room.", "He prevented me by entering the room."], "answer": 0},
+    {"question": "The book is too much interesting.", "options": ["The book is very interesting.", "The book is much interesting.", "The book is too interesting.", "The book is too many interesting."], "answer": 0},
+    {"question": "She is senior than me in the office.", "options": ["She is senior to me in the office.", "She is senior than I in the office.", "She is more senior than me in the office.", "She is senior from me in the office."], "answer": 0},
+
+    {"question": "He objected on my proposal.", "options": ["He objected to my proposal.", "He objected over my proposal.", "He objected for my proposal.", "He objected against my proposal."], "answer": 0},
+    {"question": "The police is investigating the case.", "options": ["The police are investigating the case.", "The police was investigating the case.", "The police is being investigating the case.", "The police has been investigating the case."], "answer": 0},
+    {"question": "He denied to accept the offer.", "options": ["He denied accepting the offer.", "He denied accept the offer.", "He denied for accepting the offer.", "He denied to accepted the offer."], "answer": 0},
+    {"question": "She is married with a doctor.", "options": ["She is married to a doctor.", "She has married with a doctor.", "She married with a doctor.", "She is married by a doctor."], "answer": 0},
+    {"question": "They are discussing about the issue.", "options": ["They are discussing the issue.", "They were discussing about the issue.", "They have discussing about the issue.", "They are discussed about the issue."], "answer": 0},
+
+    {"question": "She is one of the best dancer in the group.", "options": ["She is one of the best dancers in the group.", "She is one of the best dancer among the group.", "She is one of the best dancer of group.", "She is one of best dancer in the group."], "answer": 0},
+    {"question": "I cannot cope up with this pressure.", "options": ["I cannot cope with this pressure.", "I cannot coped up with this pressure.", "I cannot coping up with this pressure.", "I cannot copes up with this pressure."], "answer": 0},
+    {"question": "She is good in English.", "options": ["She is good at English.", "She is good for English.", "She is good with English.", "She is good to English."], "answer": 0},
+    {"question": "The teacher gave me an advice.", "options": ["The teacher gave me advice.", "The teacher gave me a piece of advice.", "The teacher gave me advices.", "The teacher gave me some advice."], "answer": 1},
+    {"question": "He is addicted with coffee.", "options": ["He is addicted to coffee.", "He is addicted by coffee.", "He is addicted for coffee.", "He is addicted in coffee."], "answer": 0},
+
+    {"question": "The furniture in this room are new.", "options": ["The furniture in this room is new.", "The furniture in this room are news.", "The furnitures in this room are new.", "The furniture in this room are newly."], "answer": 0},
+    {"question": "He insisted me to stay.", "options": ["He insisted that I stay.", "He insisted me stay.", "He insisted in me to stay.", "He insisted for me to stay."], "answer": 0},
+    {"question": "The reason of his failure is laziness.", "options": ["The reason for his failure is laziness.", "The reason to his failure is laziness.", "The reason because of his failure is laziness.", "The reason behind his failure is laziness."], "answer": 0},
+    {"question": "She is suffering with cold.", "options": ["She is suffering from cold.", "She is suffering in cold.", "She is suffering to cold.", "She is suffering for cold."], "answer": 0},
+    {"question": "He is the member of our club.", "options": ["He is a member of our club.", "He is member of our club.", "He is one member of our club.", "He is an member of our club."], "answer": 0}
+    ,{"question": "He did not knew the answer.", "options": ["He did not know the answer.", "He do not knew the answer.", "He did not knows the answer.", "He did not known the answer."], "answer": 0},
+    {"question": "Neither of them were available.", "options": ["Neither of them was available.", "Neither of them were available.", "Neither them was available.", "Neither them were available."], "answer": 0},
+    {"question": "She enjoys to play basketball.", "options": ["She enjoys playing basketball.", "She enjoy to play basketball.", "She enjoys to playing basketball.", "She enjoying playing basketball."], "answer": 0},
+    {"question": "The team has won the match yesterday.", "options": ["The team won the match yesterday.", "The team has win the match yesterday.", "The team wins the match yesterday.", "The team was won the match yesterday."], "answer": 0},
+    {"question": "They discussed about the project.", "options": ["They discussed the project.", "They were discussed about the project.", "They discuss about the project.", "They have discussed about the project."], "answer": 0},
+
+    {"question": "The news are surprising.", "options": ["The news is surprising.", "The news are surprises.", "The news was surprising.", "The news were surprising."], "answer": 0},
+    {"question": "She suggested me to go there.", "options": ["She suggested that I go there.", "She suggested me that go there.", "She suggested to me go there.", "She suggested me going there."], "answer": 0},
+    {"question": "He prevented me to enter the room.", "options": ["He prevented me from entering the room.", "He prevented me enter the room.", "He prevented me entering the room.", "He prevented me by entering the room."], "answer": 0},
+    {"question": "The book is too much interesting.", "options": ["The book is very interesting.", "The book is much interesting.", "The book is too interesting.", "The book is too many interesting."], "answer": 0},
+    {"question": "She is senior than me in the office.", "options": ["She is senior to me in the office.", "She is senior than I in the office.", "She is more senior than me in the office.", "She is senior from me in the office."], "answer": 0},
+
+    {"question": "He objected on my proposal.", "options": ["He objected to my proposal.", "He objected over my proposal.", "He objected for my proposal.", "He objected against my proposal."], "answer": 0},
+    {"question": "The police is investigating the case.", "options": ["The police are investigating the case.", "The police was investigating the case.", "The police is being investigating the case.", "The police has been investigating the case."], "answer": 0},
+    {"question": "He denied to accept the offer.", "options": ["He denied accepting the offer.", "He denied accept the offer.", "He denied for accepting the offer.", "He denied to accepted the offer."], "answer": 0},
+    {"question": "She is married with a doctor.", "options": ["She is married to a doctor.", "She has married with a doctor.", "She married with a doctor.", "She is married by a doctor."], "answer": 0},
+    {"question": "They are discussing about the issue.", "options": ["They are discussing the issue.", "They were discussing about the issue.", "They have discussing about the issue.", "They are discussed about the issue."], "answer": 0},
+
+    {"question": "I cannot cope up with this pressure.", "options": ["I cannot cope with this pressure.", "I cannot coped up with this pressure.", "I cannot coping up with this pressure.", "I cannot copes up with this pressure."], "answer": 0},
+    {"question": "She is good in English.", "options": ["She is good at English.", "She is good for English.", "She is good with English.", "She is good to English."], "answer": 0},
+    {"question": "The teacher gave me an advice.", "options": ["The teacher gave me advice.", "The teacher gave me a piece of advice.", "The teacher gave me advices.", "The teacher gave me some advice."], "answer": 1},
+    {"question": "He is addicted with coffee.", "options": ["He is addicted to coffee.", "He is addicted by coffee.", "He is addicted for coffee.", "He is addicted in coffee."], "answer": 0},
+    {"question": "The furniture in this room are new.", "options": ["The furniture in this room is new.", "The furniture in this room are news.", "The furnitures in this room are new.", "The furniture in this room are newly."], "answer": 0},
+
+    {"question": "He insisted me to stay.", "options": ["He insisted that I stay.", "He insisted me stay.", "He insisted in me to stay.", "He insisted for me to stay."], "answer": 0},
+    {"question": "The reason of his failure is laziness.", "options": ["The reason for his failure is laziness.", "The reason to his failure is laziness.", "The reason because of his failure is laziness.", "The reason behind his failure is laziness."], "answer": 0},
+    {"question": "She is suffering with cold.", "options": ["She is suffering from cold.", "She is suffering in cold.", "She is suffering to cold.", "She is suffering for cold."], "answer": 0},
+    {"question": "He is the member of our club.", "options": ["He is a member of our club.", "He is member of our club.", "He is one member of our club.", "He is an member of our club."], "answer": 0},
+    
+    {"question": "Each of the students were given a certificate.", "options": ["Each of the students was given a certificate.", "Each of the students were given certificates.", "Each of the students is given a certificate.", "Each students were given a certificate."], "answer": 0},
+    {"question": "She prefers tea than coffee.", "options": ["She prefers tea to coffee.", "She prefers tea over coffee.", "She prefers tea for coffee.", "She prefers tea rather than coffee."], "answer": 0},
+    {"question": "It’s high time you go to bed.", "options": ["It’s high time you went to bed.", "It’s high time you goes to bed.", "It’s high time you gone to bed.", "It’s high time you go for bed."], "answer": 0},
+    {"question": "I am looking forward to meet you.", "options": ["I am looking forward to meeting you.", "I am looking forward meeting you.", "I am looking forward to met you.", "I am looking forward meet you."], "answer": 0},
+   
+
+]
+
+        
+        let currentPage = 0;
+        const questionsPerPage = 5;
+        
+        function loadQuestions() {
+            let startIndex = currentPage * questionsPerPage;
+            let endIndex = Math.min(startIndex + questionsPerPage, questions.length);
+            let questionsDiv = document.getElementById("questions");
+            questionsDiv.innerHTML = "";
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                let questionObj = questions[i];
+                let questionElement = document.createElement("div");
+                questionElement.classList.add("question-container");
+                questionElement.innerHTML = `<div class='question'>${questionObj.question}</div>`;
+                
+                let optionsDiv = document.createElement("div");
+                optionsDiv.classList.add("options");
+                questionObj.options.forEach((option, index) => {
+                    let optionElement = document.createElement("label");
+                    optionElement.innerHTML = `<input type='radio' name='correction${i}' value='${index}' onclick='checkAnswer(${i}, ${index})'> ${option}`;
+                    optionsDiv.appendChild(optionElement);
+                });
+                
+                questionElement.appendChild(optionsDiv);
+                questionsDiv.appendChild(questionElement);
+            }
+        }
+        
+        function checkAnswer(questionIndex, selectedIndex) {
+            let correctIndex = questions[questionIndex].answer;
+            let options = document.querySelectorAll(`input[name='correction${questionIndex}']`);
+            
+            options.forEach((option, index) => {
+                option.parentElement.classList.remove("correct", "wrong");
+                if (index === correctIndex) {
+                    option.parentElement.classList.add("correct");
+                }
+                if (index === selectedIndex && selectedIndex !== correctIndex) {
+                    option.parentElement.classList.add("wrong");
+                }
+            });
+        }
+        
+        function nextPage() {
+            if ((currentPage + 1) * questionsPerPage < questions.length) {
+                currentPage++;
+                loadQuestions();
+            }
+        }
+        
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                loadQuestions();
+            }
+        }
+        
+        function resetQuiz() {
+            currentPage = 0;
+            loadQuestions();
+        }
+        
+         loadQuestions();
+    </script>
+</body>
+</html>

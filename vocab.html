@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocabEase</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #f4f5f9, #e0e6f0);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items
+
+: center;
+    padding: 10px;
+}
+
+.app-wrapper {
+    background: white;
+    width: 100%;
+    max-width: 850px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.app-header {
+    background: linear-gradient(90deg, #7b2cbf, #3a86ff);
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.app-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.app-header p {
+    font-size: 1rem;
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+.filter-section {
+    padding: 15px 20px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #e8ecef;
+}
+
+.filter-section label {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.filter-section select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    cursor: pointer;
+}
+
+.progress-section {
+    padding: 15px 20px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#progressText {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #7b2cbf, #3a86ff);
+    border-radius: 5px;
+    transition: width 0.4s ease;
+}
+
+.word-container {
+    padding: 20px;
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.word-item {
+    background: linear-gradient(135deg, #fdfdfd, #f7f8fa);
+    border: 1px solid #e8ecef;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
+    transition: transform 0.2s ease;
+}
+
+.word-item:hover {
+    transform: translateY(-2px);
+}
+
+.word-item h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #7b2cbf;
+    margin-bottom: 10px;
+}
+
+.word-item p {
+    font-size: 0.8rem;
+    color: #444;
+    line-height: 1.5;
+    margin: 5px 0;
+}
+
+.word-item .label {
+    font-weight: 500;
+    color: #3a86ff;
+}
+
+.navigation {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    background: #fafafa;
+    border-top: 1px solid #e8ecef;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background: linear-gradient(90deg, #7b2cbf, #3a86ff);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.nav-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: linear-gradient(90deg, #5a189a, #1e6091);
+    transform: scale(1.05);
+}
+
+.nav-btn span {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+    .app-wrapper {
+        padding: 10px;
+    }
+    .app-header h1 {
+        font-size: 1.5rem;
+    }
+    .word-item h2 {
+        font-size: 1.2rem;
+    }
+    .word-item p {
+        font-size: 0.9rem;
+    }
+}
+.back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: white;
+            color: #4b6cb7;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: #6a11cb;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <header class="app-header">
+            <h1>VocabEase</h1>
+            <p>Learn 2000 Words with Ease</p>
+        </header>
+        <div class="filter-section">
+            <label for="letterFilter">Filter by Letter:</label>
+            <select id="letterFilter">
+                <option value="all">All Letters</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+                <option value="J">J</option>
+                <option value="K">K</option>
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="N">N</option>
+                <option value="O">O</option>
+                <option value="P">P</option>
+                <option value="Q">Q</option>
+                <option value="R">R</option>
+                <option value="S">S</option>
+                <option value="T">T</option>
+                <option value="U">U</option>
+                <option value="V">V</option>
+                <option value="W">W</option>
+                <option value="X">X</option>
+                <option value="Y">Y</option>
+                <option value="Z">Z</option>
+            </select>
+        </div>
+        <div class="progress-section">
+            <span id="progressText">0/2000 Words</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        <main class="word-container" id="wordContainer"></main>
+        <footer class="navigation">
+            <button id="prevBtn" class="nav-btn" disabled><span>←</span> Previous</button>
+            <button id="nextBtn" class="nav-btn">Next <span>→</span></button>
+        </footer>
+        <a href="javascript:history.back()" class="back-button">Go Back</a>
+
+    </div>
+    <script>
+
+const vocabulary = [
+    // A
+    { word: "Abate", description: "To reduce in intensity", hindiDescription: "तीव्रता कम करना", synonyms: ["decrease", "lessen"], sentence: "The rain began to abate after hours." },
+    { word: "Adapt", description: "To adjust to new conditions", hindiDescription: "अनुकूलन करना", synonyms: ["adjust", "modify"], sentence: "She adapted quickly to the climate." },
+    { word: "Adept", description: "Highly skilled", hindiDescription: "निपुण", synonyms: ["expert", "proficient"], sentence: "He’s adept at solving puzzles." },
+    { word: "Adore", description: "To love deeply", hindiDescription: "प्यार करना", synonyms: ["cherish", "worship"], sentence: "They adore their new puppy." },
+    { word: "Alert", description: "Quick to notice danger", hindiDescription: "सतर्क", synonyms: ["vigilant", "aware"], sentence: "The guard stayed alert all night." },
+    { word: "Ample", description: "More than enough", hindiDescription: "पर्याप्त", synonyms: ["sufficient", "plenty"], sentence: "We have ample time to prepare." },
+    { word: "Astonish", description: "To surprise greatly", hindiDescription: "आश्चर्यचकित करना", synonyms: ["amaze", "stun"], sentence: "Her talent astonished everyone." },
+    { word: "Attain", description: "To achieve or reach", hindiDescription: "प्राप्त करना", synonyms: ["gain", "accomplish"], sentence: "He attained his goals through effort." },
+    { word: "Avert", description: "To prevent or turn away", hindiDescription: "टालना", synonyms: ["avoid", "deflect"], sentence: "She averted a crisis with quick thinking." },
+    { word: "Awake", description: "Not asleep", hindiDescription: "जागना", synonyms: ["alert", "conscious"], sentence: "He stayed awake to finish the task." },
+    // B
+    { word: "Benevolent", description: "Kind and generous", hindiDescription: "दयालु", synonyms: ["charitable", "kind"], sentence: "The benevolent man donated generously." },
+    { word: "Bliss", description: "Perfect happiness", hindiDescription: "आनंद", synonyms: ["joy", "ecstasy"], sentence: "The vacation was pure bliss." },
+    { word: "Bold", description: "Fearless and daring", hindiDescription: "साहसी", synonyms: ["brave", "courageous"], sentence: "She made a bold decision to move." },
+    { word: "Bounty", description: "Generous giving", hindiDescription: "उदारता", synonyms: ["reward", "gift"], sentence: "The harvest yielded a bounty of crops." },
+    { word: "Brevity", description: "Shortness in speech", hindiDescription: "संक्षिप्तता", synonyms: ["conciseness", "terseness"], sentence: "He spoke with brevity and clarity." },
+    { word: "Brisk", description: "Active and energetic", hindiDescription: "तेज", synonyms: ["lively", "quick"], sentence: "They took a brisk walk in the park." },
+    { word: "Buoyant", description: "Cheerful or able to float", hindiDescription: "प्रफुल्लित", synonyms: ["cheerful", "floatable"], sentence: "Her buoyant mood lifted everyone." },
+    { word: "Bustle", description: "Busy activity", hindiDescription: "हलचल", synonyms: ["hustle", " commotion"], sentence: "The market was full of bustle." },
+    { word: "Baffle", description: "To confuse or perplex", hindiDescription: "हैरान करना", synonyms: ["puzzle", "bewilder"], sentence: "The riddle baffled the children." },
+    { word: "Beacon", description: "A guiding light or signal", hindiDescription: "प्रकाशस्तंभ", synonyms: ["signal", "guide"], sentence: "The lighthouse served as a beacon." },
+    // C (sample, continue similarly for D-Z)
+    { word: "Candid", description: "Honest and straightforward", hindiDescription: "ईमानदार", synonyms: ["frank", "open"], sentence: "She gave a candid response." },
+    { word: "Cherish", description: "To hold dear", hindiDescription: "संभालना", synonyms: ["treasure", "value"], sentence: "He cherishes his family." },
+    { word: "Clarity", description: "Clearness of thought", hindiDescription: "स्पष्टता", synonyms: ["lucidity", "transparency"], sentence: "Her explanation brought clarity." },
+    { word: "Compel", description: "To force or drive", hindiDescription: "मजबूर करना", synonyms: ["oblige", "urge"], sentence: "Duty compelled him to act." },
+    { word: "Concise", description: "Brief yet comprehensive", hindiDescription: "संक्षिप्त", synonyms: ["short", "succinct"], sentence: "His speech was concise and effective." },
+    { word: "Confide", description: "To share secrets", hindiDescription: "भरोसा करना", synonyms: ["trust", "reveal"], sentence: "She confided in her best friend." },
+    { word: "Courage", description: "Bravery in facing danger", hindiDescription: "साहस", synonyms: ["valor", "guts"], sentence: "He showed great courage in battle." },
+    { word: "Crave", description: "To desire intensely", hindiDescription: "लालसा करना", synonyms: ["yearn", "long"], sentence: "She craved a moment of peace." },
+    { word: "Crisp", description: "Fresh and sharp", hindiDescription: "कुरकुरा", synonyms: ["brisk", "clear"], sentence: "The air was crisp in the morning." },
+    { word: "Curious", description: "Eager to know", hindiDescription: "जिज्ञासु", synonyms: ["inquisitive", "interested"], sentence: "The child was curious about everything." },
+   { word: "Daunt", description: "To make afraid or discouraged", hindiDescription: "डराना", synonyms: ["intimidate", "deter"], sentence: "The challenge did not daunt her spirit." },
+    { word: "Deft", description: "Skillful and quick", hindiDescription: "कुशल", synonyms: ["nimble", "adept"], sentence: "He handled the tools with deft precision." },
+    { word: "Delight", description: "Great pleasure or joy", hindiDescription: "खुशी", synonyms: ["joy", "pleasure"], sentence: "The surprise party was a delight to all." },
+    { word: "Demure", description: "Reserved or modest", hindiDescription: "संकोची", synonyms: ["shy", "reserved"], sentence: "She gave a demure smile in response." },
+    { word: "Denounce", description: "To publicly condemn", hindiDescription: "निंदा करना", synonyms: ["criticize", "condemn"], sentence: "They denounced the unfair policy." },
+    { word: "Depict", description: "To show or represent", hindiDescription: "चित्रित करना", synonyms: ["portray", "illustrate"], sentence: "The painting depicts a serene landscape." },
+    { word: "Destiny", description: "Fate or future", hindiDescription: "भाग्य", synonyms: ["fate", "fortune"], sentence: "She believed in shaping her own destiny." },
+    { word: "Diligent", description: "Hard-working and careful", hindiDescription: "परिश्रमी", synonyms: ["industrious", "thorough"], sentence: "He was diligent in his studies." },
+    { word: "Disdain", description: "Contempt or scorn", hindiDescription: "तिरस्कार", synonyms: ["contempt", "scorn"], sentence: "She looked at him with disdain." },
+    { word: "Diverse", description: "Varied or different", hindiDescription: "विविध", synonyms: ["varied", "distinct"], sentence: "The group had diverse opinions." },
+    { word: "Dazzle", description: "To impress with brilliance", hindiDescription: "चकाचौंध करना", synonyms: ["amaze", "stun"], sentence: "The fireworks dazzled the crowd." },
+    { word: "Deceive", description: "To mislead or trick", hindiDescription: "धोखा देना", synonyms: ["trick", "fool"], sentence: "He tried to deceive his friends." },
+    { word: "Decree", description: "An official order", hindiDescription: "हुक्म", synonyms: ["order", "edict"], sentence: "The king issued a decree." },
+    { word: "Defy", description: "To resist or challenge", hindiDescription: "अवहेलना करना", synonyms: ["oppose", "resist"], sentence: "She defied the odds to succeed." },
+    { word: "Delay", description: "To postpone or slow", hindiDescription: "देरी करना", synonyms: ["postpone", "stall"], sentence: "The flight was delayed by rain." },
+    { word: "Demand", description: "To request urgently", hindiDescription: "मांग करना", synonyms: ["require", "insist"], sentence: "He demanded an explanation." },
+    { word: "Dense", description: "Closely packed or thick", hindiDescription: "घना", synonyms: ["thick", "compact"], sentence: "The forest was dense with trees." },
+    { word: "Depart", description: "To leave or go away", hindiDescription: "रवाना होना", synonyms: ["leave", "exit"], sentence: "The train departs at noon." },
+    { word: "Despair", description: "Loss of hope", hindiDescription: "निराशा", synonyms: ["hopelessness", "gloom"], sentence: "She felt despair after the loss." },
+    { word: "Detest", description: "To hate intensely", hindiDescription: "घृणा करना", synonyms: ["loathe", "abhor"], sentence: "He detests dishonesty." },
+    { word: "Devise", description: "To plan or invent", hindiDescription: "योजना बनाना", synonyms: ["create", "formulate"], sentence: "She devised a clever solution." },
+    { word: "Diffuse", description: "To spread out widely", hindiDescription: "फैलाना", synonyms: ["spread", "disperse"], sentence: "The scent diffused through the room." },
+    { word: "Diminish", description: "To reduce or lessen", hindiDescription: "कम करना", synonyms: ["decrease", "reduce"], sentence: "The pain began to diminish." },
+    { word: "Dire", description: "Extremely serious", hindiDescription: "भयानक", synonyms: ["urgent", "grave"], sentence: "The situation was dire." },
+    { word: "Discern", description: "To perceive or recognize", hindiDescription: "पहचानना", synonyms: ["detect", "notice"], sentence: "He discerned a flaw in the plan." },
+    { word: "Disperse", description: "To scatter or spread", hindiDescription: "बिखेरना", synonyms: ["scatter", "dissipate"], sentence: "The crowd dispersed after the event." },
+    { word: "Dispute", description: "To argue or disagree", hindiDescription: "विवाद करना", synonyms: ["debate", "contest"], sentence: "They disputed the decision." },
+    { word: "Distant", description: "Far away in space or time", hindiDescription: "दूर", synonyms: ["remote", "far"], sentence: "The village was distant from the city." },
+    { word: "Divert", description: "To turn aside or distract", hindiDescription: "मोड़ना", synonyms: ["redirect", "distract"], sentence: "She diverted his attention." },
+    { word: "Dwell", description: "To live or reside", hindiDescription: "निवास करना", synonyms: ["reside", "inhabit"], sentence: "They dwell in a small cottage." },
+// E (30 words)
+    { word: "Eager", description: "Enthusiastically wanting", hindiDescription: "उत्सुक", synonyms: ["keen", "enthusiastic"], sentence: "She was eager to start the project." },
+    { word: "Earnest", description: "Serious and sincere", hindiDescription: "गंभीर", synonyms: ["sincere", "serious"], sentence: "He spoke in an earnest tone." },
+    { word: "Eloquent", description: "Fluent and persuasive", hindiDescription: "प्रवाहपूर्ण", synonyms: ["articulate", "expressive"], sentence: "Her eloquent speech inspired many." },
+    { word: "Elate", description: "To make very happy", hindiDescription: "प्रसन्न करना", synonyms: ["uplift", "thrill"], sentence: "The good news elated the team." },
+    { word: "Embark", description: "To begin a journey or task", hindiDescription: "शुरू करना", synonyms: ["start", "commence"], sentence: "They embarked on a new adventure." },
+    { word: "Endure", description: "To withstand hardship", hindiDescription: "सहन करना", synonyms: ["bear", "tolerate"], sentence: "She endured the pain bravely." },
+    { word: "Enrich", description: "To improve or enhance", hindiDescription: "समृद्ध करना", synonyms: ["enhance", "improve"], sentence: "Reading can enrich your mind." },
+    { word: "Entice", description: "To attract or tempt", hindiDescription: "लुभाना", synonyms: ["lure", "attract"], sentence: "The offer enticed him to join." },
+    { word: "Evade", description: "To escape or avoid", hindiDescription: "बचना", synonyms: ["dodge", "elude"], sentence: "He evaded the question cleverly." },
+    { word: "Exceed", description: "To go beyond a limit", hindiDescription: "अधिक होना", synonyms: ["surpass", "outdo"], sentence: "Her performance exceeded expectations." },
+    { word: "Ecstasy", description: "Overwhelming happiness", hindiDescription: "उन्माद", synonyms: ["joy", "rapture"], sentence: "Winning brought her ecstasy." },
+    { word: "Edify", description: "To instruct or improve", hindiDescription: "शिक्षित करना", synonyms: ["educate", "uplift"], sentence: "His words edified the audience." },
+    { word: "Effort", description: "Exertion of energy", hindiDescription: "प्रयास", synonyms: ["attempt", "endeavor"], sentence: "She put effort into her work." },
+    { word: "Elicit", description: "To draw out a response", hindiDescription: "प्रकट करना", synonyms: ["extract", "evoke"], sentence: "The question elicited a smile." },
+    { word: "Elude", description: "To escape notice", hindiDescription: "हाथ न लगना", synonyms: ["evade", "avoid"], sentence: "The solution eluded him." },
+    { word: "Emerge", description: "To come into view", hindiDescription: "उभरना", synonyms: ["appear", "arise"], sentence: "The sun emerged from the clouds." },
+    { word: "Empathy", description: "Understanding others' feelings", hindiDescription: "सहानुभूति", synonyms: ["compassion", "sympathy"], sentence: "She showed empathy toward him." },
+    { word: "Enable", description: "To make possible", hindiDescription: "सक्षम करना", synonyms: ["allow", "permit"], sentence: "The tool enabled faster work." },
+    { word: "Enchant", description: "To charm or delight", hindiDescription: "मोहित करना", synonyms: ["captivate", "bewitch"], sentence: "The story enchanted the children." },
+    { word: "Endeavor", description: "A serious attempt", hindiDescription: "प्रयास", synonyms: ["effort", "try"], sentence: "He made an endeavor to improve." },
+    { word: "Engage", description: "To participate or attract", hindiDescription: "लगाना", synonyms: ["involve", "captivate"], sentence: "The game engaged everyone." },
+    { word: "Enigma", description: "A mystery or puzzle", hindiDescription: "पहेली", synonyms: ["riddle", "mystery"], sentence: "His behavior was an enigma." },
+    { word: "Enlist", description: "To join or recruit", hindiDescription: "भर्ती करना", synonyms: ["enroll", "recruit"], sentence: "She enlisted in the program." },
+    { word: "Ensure", description: "To make certain", hindiDescription: "सुनिश्चित करना", synonyms: ["guarantee", "secure"], sentence: "He ensured the task was done." },
+    { word: "Entail", description: "To involve or require", hindiDescription: "शामिल करना", synonyms: ["involve", "necessitate"], sentence: "The job entails travel." },
+    { word: "Erode", description: "To wear away gradually", hindiDescription: "कटाव करना", synonyms: ["corrode", "deteriorate"], sentence: "The river eroded the banks." },
+    { word: "Esteem", description: "High regard or respect", hindiDescription: "सम्मान", synonyms: ["respect", "admiration"], sentence: "She held him in high esteem." },
+    { word: "Eternal", description: "Lasting forever", hindiDescription: "शाश्वत", synonyms: ["everlasting", "perpetual"], sentence: "Their love was eternal." },
+    { word: "Evoke", description: "To call forth feelings", hindiDescription: "जागृत करना", synonyms: ["elicit", "invoke"], sentence: "The song evoked memories." },
+    { word: "Exalt", description: "To praise highly", hindiDescription: "उच्च करना", synonyms: ["praise", "glorify"], sentence: "They exalted her achievements." },
+
+    // F (30 words)
+    { word: "Falter", description: "To hesitate or weaken", hindiDescription: "डगमगाना", synonyms: ["waver", "stumble"], sentence: "His voice faltered during the speech." },
+    { word: "Fathom", description: "To understand deeply", hindiDescription: "थाह लेना", synonyms: ["grasp", "comprehend"], sentence: "She couldn’t fathom his motives." },
+    { word: "Fervor", description: "Intense enthusiasm", hindiDescription: "जोश", synonyms: ["passion", "zeal"], sentence: "He spoke with great fervor." },
+    { word: "Fickle", description: "Unpredictably changeable", hindiDescription: "चंचल", synonyms: ["inconstant", "capricious"], sentence: "Her fickle nature confused everyone." },
+    { word: "Flourish", description: "To grow or succeed", hindiDescription: "फलना-फूलना", synonyms: ["thrive", "prosper"], sentence: "The business began to flourish." },
+    { word: "Forbid", description: "To prohibit or ban", hindiDescription: "मना करना", synonyms: ["prohibit", "ban"], sentence: "They forbid smoking indoors." },
+    { word: "Foster", description: "To encourage or nurture", hindiDescription: "संवर्धन करना", synonyms: ["promote", "nurture"], sentence: "She fostered a love for reading." },
+    { word: "Frugal", description: "Economical with resources", hindiDescription: "मितव्ययी", synonyms: ["thrifty", "sparing"], sentence: "He lived a frugal lifestyle." },
+    { word: "Futile", description: "Pointless or ineffective", hindiDescription: "व्यर्थ", synonyms: ["useless", "vain"], sentence: "Their efforts proved futile." },
+    { word: "Frenzy", description: "Wild excitement or agitation", hindiDescription: "उन्माद", synonyms: ["madness", "hysteria"], sentence: "The crowd was in a frenzy." },
+    { word: "Fable", description: "A short moral story", hindiDescription: "कहानी", synonyms: ["tale", "legend"], sentence: "The fable taught a valuable lesson." },
+    { word: "Facile", description: "Easily achieved", hindiDescription: "सहज", synonyms: ["easy", "simple"], sentence: "The task was facile for her." },
+    { word: "Faint", description: "Weak or barely perceptible", hindiDescription: "कमजोर", synonyms: ["weak", "dim"], sentence: "A faint sound came from the room." },
+    { word: "Fame", description: "Widespread recognition", hindiDescription: "प्रसिद्धि", synonyms: ["renown", "celebrity"], sentence: "She achieved fame as a writer." },
+    { word: "Fathomless", description: "Too deep to measure", hindiDescription: "अथाह", synonyms: ["bottomless", "infinite"], sentence: "The ocean seemed fathomless." },
+    { word: "Feasible", description: "Possible to do", hindiDescription: "संभव", synonyms: ["possible", "practical"], sentence: "The plan was feasible with effort." },
+    { word: "Fend", description: "To ward off or defend", hindiDescription: "बचाना", synonyms: ["repel", "defend"], sentence: "He fended off the attack." },
+    { word: "Fierce", description: "Intensely aggressive", hindiDescription: "उग्र", synonyms: ["ferocious", "wild"], sentence: "The storm was fierce and unrelenting." },
+    { word: "Finite", description: "Having limits", hindiDescription: "सीमित", synonyms: ["limited", "bounded"], sentence: "Our resources are finite." },
+    { word: "Flair", description: "Natural talent or style", hindiDescription: "प्रतिभा", synonyms: ["talent", "aptitude"], sentence: "She has a flair for design." },
+    { word: "Flee", description: "To run away", hindiDescription: "भागना", synonyms: ["escape", "bolt"], sentence: "They fled from the danger." },
+    { word: "Flexible", description: "Able to bend or adapt", hindiDescription: "लचीला", synonyms: ["adaptable", "pliable"], sentence: "The schedule is flexible." },
+    { word: "Fluent", description: "Flowing smoothly", hindiDescription: "धाराप्रवाह", synonyms: ["smooth", "proficient"], sentence: "She’s fluent in three languages." },
+    { word: "Focus", description: "To concentrate attention", hindiDescription: "ध्यान केंद्रित करना", synonyms: ["concentrate", "center"], sentence: "He focused on the task." },
+    { word: "Fond", description: "Having affection", hindiDescription: "शौकीन", synonyms: ["affectionate", "loving"], sentence: "She’s fond of music." },
+    { word: "Forge", description: "To create or shape", hindiDescription: "गढ़ना", synonyms: ["form", "craft"], sentence: "He forged a strong bond." },
+    { word: "Fortune", description: "Luck or wealth", hindiDescription: "भाग्य", synonyms: ["luck", "riches"], sentence: "She inherited a fortune." },
+    { word: "Fragile", description: "Easily broken", hindiDescription: "नाजुक", synonyms: ["delicate", "brittle"], sentence: "The glass was fragile." },
+    { word: "Frequent", description: "Happening often", hindiDescription: "बार-बार", synonyms: ["regular", "common"], sentence: "He makes frequent visits." },
+    { word: "Fusion", description: "A blending or merging", hindiDescription: "संलयन", synonyms: ["blend", "union"], sentence: "The dish was a fusion of flavors." },
+
+    // G (30 words)
+    { word: "Gallant", description: "Brave and noble", hindiDescription: "वीर", synonyms: ["brave", "heroic"], sentence: "He made a gallant effort to save her." },
+    { word: "Genuine", description: "Real or authentic", hindiDescription: "वास्तविक", synonyms: ["true", "authentic"], sentence: "Her smile was genuine and warm." },
+    { word: "Gleam", description: "A faint or brief light", hindiDescription: "चमक", synonyms: ["shine", "glimmer"], sentence: "A gleam of hope appeared." },
+    { word: "Gloom", description: "Darkness or sadness", hindiDescription: "उदासी", synonyms: ["darkness", "melancholy"], sentence: "The room was filled with gloom." },
+    { word: "Grace", description: "Elegance or kindness", hindiDescription: "अनुग्रह", synonyms: ["elegance", "mercy"], sentence: "She moved with grace and poise." },
+    { word: "Grasp", description: "To seize or understand", hindiDescription: "पकड़ना", synonyms: ["hold", "comprehend"], sentence: "He grasped the concept quickly." },
+    { word: "Gregarious", description: "Sociable and friendly", hindiDescription: "मिलनसार", synonyms: ["sociable", "outgoing"], sentence: "She’s a gregarious host." },
+    { word: "Grim", description: "Harsh or forbidding", hindiDescription: "कठोर", synonyms: ["stern", "bleak"], sentence: "The news was grim and unsettling." },
+    { word: "Gusto", description: "Enthusiastic enjoyment", hindiDescription: "उत्साह", synonyms: ["zest", "vigor"], sentence: "He ate with great gusto." },
+    { word: "Glean", description: "To gather information", hindiDescription: "संग्रह करना", synonyms: ["collect", "gather"], sentence: "She gleaned facts from the book." },
+    { word: "Gape", description: "To stare with amazement", hindiDescription: "मुँह खोलकर देखना", synonyms: ["stare", "gawk"], sentence: "They gaped at the fireworks." },
+    { word: "Gauge", description: "To measure or estimate", hindiDescription: "मापना", synonyms: ["measure", "assess"], sentence: "He gauged the distance carefully." },
+    { word: "Generous", description: "Willing to give", hindiDescription: "उदार", synonyms: ["kind", "liberal"], sentence: "She’s generous with her time." },
+    { word: "Gentle", description: "Mild or kind", hindiDescription: "नम्र", synonyms: ["soft", "kind"], sentence: "He spoke in a gentle voice." },
+    { word: "Giddy", description: "Dizzy or excited", hindiDescription: "चक्कर", synonyms: ["dizzy", "elated"], sentence: "She felt giddy with joy." },
+    { word: "Glance", description: "A quick look", hindiDescription: "नज़र", synonyms: ["peek", "glimpse"], sentence: "He gave her a quick glance." },
+    { word: "Glimmer", description: "A faint light or hope", hindiDescription: "झिलमिलाहट", synonyms: ["flicker", "spark"], sentence: "A glimmer of light shone through." },
+    { word: "Glorify", description: "To praise highly", hindiDescription: "महिमा करना", synonyms: ["exalt", "honor"], sentence: "They glorified her achievements." },
+    { word: "Glossy", description: "Shiny and smooth", hindiDescription: "चमकदार", synonyms: ["shiny", "sleek"], sentence: "The magazine had glossy pages." },
+    { word: "Glow", description: "To emit light or warmth", hindiDescription: "चमकना", synonyms: ["shine", "radiate"], sentence: "The fire glowed brightly." },
+    { word: "Glutton", description: "Excessive eater", hindiDescription: "पेटू", synonyms: ["overeater", "gourmand"], sentence: "He’s a glutton for sweets." },
+    { word: "Gnaw", description: "To chew or bite", hindiDescription: "कुतरना", synonyms: ["chew", "nibble"], sentence: "The dog gnawed on the bone." },
+    { word: "Goad", description: "To provoke or urge", hindiDescription: "उकसाना", synonyms: ["provoke", "spur"], sentence: "She goaded him into action." },
+    { word: "Gorge", description: "To eat greedily", hindiDescription: "लालच करना", synonyms: ["stuff", "devour"], sentence: "He gorged on the feast." },
+    { word: "Gossip", description: "Casual talk or rumors", hindiDescription: "गपशप", synonyms: ["rumor", "chatter"], sentence: "They love to gossip about neighbors." },
+    { word: "Gracious", description: "Kind and courteous", hindiDescription: "कृपालु", synonyms: ["polite", "kind"], sentence: "She was a gracious host." },
+    { word: "Gratitude", description: "Thankfulness", hindiDescription: "कृतज्ञता", synonyms: ["thanks", "appreciation"], sentence: "He expressed his gratitude." },
+    { word: "Grave", description: "Serious or solemn", hindiDescription: "गंभीर", synonyms: ["serious", "solemn"], sentence: "The matter was grave." },
+    { word: "Grip", description: "To hold tightly", hindiDescription: "पकड़", synonyms: ["clasp", "hold"], sentence: "She gripped the handle firmly." },
+    { word: "Gush", description: "To flow out suddenly", hindiDescription: "फूट पड़ना", synonyms: ["spurt", "rush"], sentence: "Water gushed from the pipe." },
+
+    // H (30 words)
+    { word: "Hapless", description: "Unfortunate or unlucky", hindiDescription: "अभागा", synonyms: ["unlucky", "wretched"], sentence: "The hapless traveler lost everything." },
+    { word: "Harbor", description: "To shelter or hold", hindiDescription: "आश्रय देना", synonyms: ["shelter", "conceal"], sentence: "She harbored no resentment." },
+    { word: "Harmony", description: "Agreement or peace", hindiDescription: "सामंजस्य", synonyms: ["accord", "peace"], sentence: "They lived in harmony." },
+    { word: "Hasten", description: "To hurry or speed up", hindiDescription: "जल्दी करना", synonyms: ["rush", "accelerate"], sentence: "He hastened to finish the task." },
+    { word: "Haughty", description: "Arrogantly proud", hindiDescription: "घमंडी", synonyms: ["arrogant", "proud"], sentence: "His haughty attitude annoyed her." },
+    { word: "Haven", description: "A safe place", hindiDescription: "आश्रय", synonyms: ["refuge", "shelter"], sentence: "The cabin was a haven." },
+    { word: "Heed", description: "To pay attention", hindiDescription: "ध्यान देना", synonyms: ["notice", "listen"], sentence: "She heeded the warning." },
+    { word: "Hinder", description: "To obstruct or delay", hindiDescription: "बाधा डालना", synonyms: ["obstruct", "impede"], sentence: "Rain hindered their progress." },
+    { word: "Hope", description: "Expectation of good", hindiDescription: "आशा", synonyms: ["wish", "desire"], sentence: "She held onto hope." },
+    { word: "Humble", description: "Modest or lowly", hindiDescription: "विनम्र", synonyms: ["modest", "meek"], sentence: "He remained humble despite success." },
+    { word: "Halt", description: "To stop or pause", hindiDescription: "रोकना", synonyms: ["stop", "cease"], sentence: "The car came to a halt." },
+    { word: "Handy", description: "Convenient or useful", hindiDescription: "सुविधाजनक", synonyms: ["useful", "convenient"], sentence: "This tool is very handy." },
+    { word: "Harsh", description: "Severe or rough", hindiDescription: "कठोर", synonyms: ["severe", "stern"], sentence: "The weather was harsh." },
+    { word: "Hasty", description: "Done too quickly", hindiDescription: "जल्दबाजी", synonyms: ["hurried", "rash"], sentence: "He made a hasty decision." },
+    { word: "Hazard", description: "A risk or danger", hindiDescription: "जोखिम", synonyms: ["danger", "risk"], sentence: "The road was a hazard." },
+    { word: "Heal", description: "To recover or cure", hindiDescription: "ठीक करना", synonyms: ["cure", "mend"], sentence: "The wound began to heal." },
+    { word: "Hearty", description: "Warm and enthusiastic", hindiDescription: "हृदयपूर्ण", synonyms: ["warm", "cheerful"], sentence: "She gave a hearty laugh." },
+    { word: "Hesitate", description: "To pause or doubt", hindiDescription: "हिचकिचाना", synonyms: ["pause", "waver"], sentence: "He hesitated before answering." },
+    { word: "Hide", description: "To conceal or cover", hindiDescription: "छिपाना", synonyms: ["conceal", "cover"], sentence: "She hid the gift." },
+    { word: "Hinder", description: "To obstruct or delay", hindiDescription: "रोकना", synonyms: ["block", "impede"], sentence: "Noise hindered her focus." },
+    { word: "Hoist", description: "To lift or raise", hindiDescription: "उठाना", synonyms: ["lift", "raise"], sentence: "They hoisted the flag." },
+    { word: "Hollow", description: "Empty inside", hindiDescription: "खोखला", synonyms: ["empty", "void"], sentence: "The tree was hollow." },
+    { word: "Honor", description: "Respect or integrity", hindiDescription: "सम्मान", synonyms: ["respect", "dignity"], sentence: "He acted with honor." },
+    { word: "Hospitable", description: "Welcoming to guests", hindiDescription: "अतिथिपरायण", synonyms: ["welcoming", "friendly"], sentence: "They were very hospitable." },
+    { word: "Hostile", description: "Unfriendly or opposed", hindiDescription: "शत्रुतापूर्ण", synonyms: ["unfriendly", "adverse"], sentence: "The crowd turned hostile." },
+    { word: "Huddle", description: "To crowd together", hindiDescription: "भीड़ करना", synonyms: ["cluster", "gather"], sentence: "They huddled for warmth." },
+    { word: "Hue", description: "A color or shade", hindiDescription: "रंग", synonyms: ["color", "shade"], sentence: "The sky had a golden hue." },
+    { word: "Huge", description: "Very large", hindiDescription: "विशाल", synonyms: ["enormous", "vast"], sentence: "The elephant was huge." },
+    { word: "Hush", description: "To make silent", hindiDescription: "चुप करना", synonyms: ["quiet", "silence"], sentence: "She hushed the baby." },
+    { word: "Hype", description: "Excessive publicity", hindiDescription: "प्रचार", synonyms: ["promotion", "buzz"], sentence: "The movie had a lot of hype." },
+
+    // I (30 words)
+    { word: "Ideal", description: "Perfect or best possible", hindiDescription: "आदर्श", synonyms: ["perfect", "model"], sentence: "This is an ideal solution." },
+    { word: "Idle", description: "Not active or in use", hindiDescription: "निष्क्रिय", synonyms: ["inactive", "lazy"], sentence: "The machine sat idle." },
+    { word: "Ignite", description: "To set on fire", hindiDescription: "प्रज्वलित करना", synonyms: ["light", "kindle"], sentence: "He ignited the campfire." },
+    { word: "Ignore", description: "To disregard intentionally", hindiDescription: "अनदेखा करना", synonyms: ["neglect", "overlook"], sentence: "She ignored the noise." },
+    { word: "Illusion", description: "A false appearance", hindiDescription: "भ्रम", synonyms: ["mirage", "deception"], sentence: "The oasis was an illusion." },
+    { word: "Imbue", description: "To inspire or permeate", hindiDescription: "भर देना", synonyms: ["infuse", "saturate"], sentence: "He imbued them with confidence." },
+    { word: "Immerse", description: "To involve deeply", hindiDescription: "डुबाना", synonyms: ["submerge", "engage"], sentence: "She immersed herself in the book." },
+    { word: "Immune", description: "Protected from disease", hindiDescription: "प्रतिरक्षित", synonyms: ["resistant", "protected"], sentence: "He’s immune to colds." },
+    { word: "Impair", description: "To weaken or damage", hindiDescription: "हानि करना", synonyms: ["damage", "weaken"], sentence: "Noise can impair hearing." },
+    { word: "Impel", description: "To drive or urge", hindiDescription: "प्रेरित करना", synonyms: ["urge", "force"], sentence: "Duty impelled her to act." },
+    { word: "Impending", description: "About to happen", hindiDescription: "आसन्न", synonyms: ["imminent", "near"], sentence: "A storm was impending." },
+    { word: "Impetus", description: "A driving force", hindiDescription: "प्रेरणा", synonyms: ["motivation", "stimulus"], sentence: "The win gave them impetus." },
+    { word: "Imply", description: "To suggest indirectly", hindiDescription: "संकेत करना", synonyms: ["hint", "suggest"], sentence: "Her tone implied disapproval." },
+    { word: "Impose", description: "To force upon", hindiDescription: "थोपना", synonyms: ["enforce", "inflict"], sentence: "They imposed strict rules." },
+    { word: "Impress", description: "To affect strongly", hindiDescription: "प्रभावित करना", synonyms: ["amaze", "influence"], sentence: "Her skills impressed everyone." },
+    { word: "Incite", description: "To stir up or provoke", hindiDescription: "उकसाना", synonyms: ["provoke", "instigate"], sentence: "His words incited a riot." },
+    { word: "Incline", description: "To lean or tend toward", hindiDescription: "झुकाव", synonyms: ["lean", "tend"], sentence: "She’s inclined to agree." },
+    { word: "Incur", description: "To bring upon oneself", hindiDescription: "झेलना", synonyms: ["sustain", "experience"], sentence: "He incurred a heavy loss." },
+    { word: "Induce", description: "To persuade or cause", hindiDescription: "प्रेरित करना", synonyms: ["persuade", "trigger"], sentence: "She induced him to join." },
+    { word: "Inevitable", description: "Certain to happen", hindiDescription: "अनिवार्य", synonyms: ["unavoidable", "certain"], sentence: "Change is inevitable." },
+    { word: "Infer", description: "To conclude from evidence", hindiDescription: "अनुमान लगाना", synonyms: ["deduce", "conclude"], sentence: "He inferred the truth." },
+    { word: "Inflexible", description: "Not easily bent", hindiDescription: "अनम्य", synonyms: ["rigid", "stubborn"], sentence: "The rules were inflexible." },
+    { word: "Inform", description: "To give knowledge", hindiDescription: "सूचित करना", synonyms: ["notify", "tell"], sentence: "She informed them of the plan." },
+    { word: "Ingenious", description: "Clever or inventive", hindiDescription: "प्रतिभाशाली", synonyms: ["clever", "creative"], sentence: "The solution was ingenious." },
+    { word: "Innate", description: "Inborn or natural", hindiDescription: "जन्मजात", synonyms: ["natural", "inherent"], sentence: "She has innate talent." },
+    { word: "Inquire", description: "To ask or investigate", hindiDescription: "पूछताछ करना", synonyms: ["ask", "investigate"], sentence: "He inquired about the job." },
+    { word: "Insight", description: "Deep understanding", hindiDescription: "अंतर्दृष्टि", synonyms: ["perception", "wisdom"], sentence: "She offered valuable insight." },
+    { word: "Insist", description: "To demand firmly", hindiDescription: "आग्रह करना", synonyms: ["demand", "persist"], sentence: "He insisted on helping." },
+    { word: "Inspire", description: "To motivate or encourage", hindiDescription: "प्रेरणा देना", synonyms: ["motivate", "uplift"], sentence: "Her story inspired many." },
+    { word: "Intact", description: "Whole or undamaged", hindiDescription: "अक्षत", synonyms: ["whole", "unbroken"], sentence: "The vase remained intact." },
+
+    // J (30 words)
+    { word: "Jaded", description: "Worn out or tired", hindiDescription: "थका हुआ", synonyms: ["exhausted", "weary"], sentence: "He felt jaded after work." },
+    { word: "Jeer", description: "To mock or taunt", hindiDescription: "हँसी उड़ाना", synonyms: ["mock", "ridicule"], sentence: "They jeered at his mistake." },
+    { word: "Jest", description: "A joke or playful act", hindiDescription: "मज़ाक", synonyms: ["joke", "prank"], sentence: "He spoke in jest." },
+    { word: "Jinx", description: "To bring bad luck", hindiDescription: "अशुभ लाना", synonyms: ["curse", "hex"], sentence: "She feared she’d jinx the plan." },
+    { word: "Jolt", description: "A sudden shock", hindiDescription: "झटका", synonyms: ["shock", "jerk"], sentence: "The news gave her a jolt." },
+    { word: "Jovial", description: "Cheerful and friendly", hindiDescription: "प्रसन्न", synonyms: ["cheerful", "merry"], sentence: "He’s a jovial companion." },
+    { word: "Judge", description: "To form an opinion", hindiDescription: "निर्णय करना", synonyms: ["assess", "evaluate"], sentence: "She judged the situation well." },
+    { word: "Juggle", description: "To handle multiple tasks", hindiDescription: "संतुलन करना", synonyms: ["balance", "manage"], sentence: "She juggles work and family." },
+    { word: "Jubilant", description: "Joyfully triumphant", hindiDescription: "उल्लासित", synonyms: ["joyful", "elated"], sentence: "They were jubilant after the win." },
+    { word: "Jump", description: "To leap or spring", hindiDescription: "कूदना", synonyms: ["leap", "bounce"], sentence: "The cat jumped onto the table." },
+    { word: "Jab", description: "To poke sharply", hindiDescription: "चुभाना", synonyms: ["poke", "thrust"], sentence: "He jabbed at the button." },
+    { word: "Jagged", description: "Rough with sharp edges", hindiDescription: "दांतेदार", synonyms: ["rough", "uneven"], sentence: "The rocks were jagged." },
+    { word: "Jam", description: "To squeeze or block", hindiDescription: "जाम करना", synonyms: ["block", "clog"], sentence: "Traffic jammed the road." },
+    { word: "Jaunt", description: "A short pleasure trip", hindiDescription: "सैर", synonyms: ["trip", "outing"], sentence: "They took a jaunt to the beach." },
+    { word: "Jealous", description: "Envious or resentful", hindiDescription: "ईर्ष्यालु", synonyms: ["envious", "covetous"], sentence: "She felt jealous of his success." },
+    { word: "Jerk", description: "A sudden pull", hindiDescription: "झटका", synonyms: ["tug", "yank"], sentence: "The rope gave a jerk." },
+    { word: "Jibe", description: "To agree or taunt", hindiDescription: "मेल खाना", synonyms: ["match", "mock"], sentence: "His story didn’t jibe with hers." },
+    { word: "Jinxed", description: "Cursed with bad luck", hindiDescription: "अभिशप्त", synonyms: ["cursed", "unlucky"], sentence: "The team seemed jinxed." },
+    { word: "Join", description: "To connect or unite", hindiDescription: "जोड़ना", synonyms: ["connect", "unite"], sentence: "She joined the club." },
+    { word: "Joke", description: "Something said for humor", hindiDescription: "मज़ाक", synonyms: ["jest", "quip"], sentence: "He told a funny joke." },
+    { word: "Jolt", description: "To shake or disturb", hindiDescription: "हिलाना", synonyms: ["shake", "startle"], sentence: "The crash jolted everyone." },
+    { word: "Journey", description: "A trip or travel", hindiDescription: "यात्रा", synonyms: ["trip", "voyage"], sentence: "The journey took three days." },
+    { word: "Joviality", description: "Cheerful mood", hindiDescription: "प्रसन्नता", synonyms: ["merriment", "joy"], sentence: "The room filled with joviality." },
+    { word: "Joy", description: "Great happiness", hindiDescription: "आनंद", synonyms: ["happiness", "delight"], sentence: "Her success brought joy." },
+    { word: "Jubilee", description: "A celebration or anniversary", hindiDescription: "जयंती", synonyms: ["celebration", "festivity"], sentence: "They celebrated a jubilee." },
+    { word: "Jumble", description: "A confused mixture", hindiDescription: "गड़बड़", synonyms: ["mess", "chaos"], sentence: "The papers were a jumble." },
+    { word: "Juncture", description: "A critical point", hindiDescription: "मोड़", synonyms: ["moment", "point"], sentence: "They met at a juncture." },
+    { word: "Just", description: "Fair or morally right", hindiDescription: "न्यायसंगत", synonyms: ["fair", "righteous"], sentence: "The decision was just." },
+    { word: "Juvenile", description: "Youthful or immature", hindiDescription: "किशोर", synonyms: ["young", "childish"], sentence: "His behavior was juvenile." },
+    { word: "Jinx", description: "A source of bad luck", hindiDescription: "पनौती", synonyms: ["curse", "misfortune"], sentence: "He blamed the jinx for failure." },
+
+    // K (30 words)
+    { word: "Keen", description: "Eager or sharp", hindiDescription: "उत्सुक", synonyms: ["eager", "acute"], sentence: "She has a keen interest in art." },
+    { word: "Keep", description: "To retain or maintain", hindiDescription: "रखना", synonyms: ["hold", "preserve"], sentence: "He kept the secret safe." },
+    { word: "Kindle", description: "To ignite or inspire", hindiDescription: "जलाना", synonyms: ["ignite", "arouse"], sentence: "She kindled a fire in him." },
+    { word: "Kinship", description: "Family relationship", hindiDescription: "रिश्तेदारी", synonyms: ["relation", "bond"], sentence: "They felt a kinship." },
+    { word: "Kiosk", description: "A small stand or booth", hindiDescription: "छोटी दुकान", synonyms: ["booth", "stall"], sentence: "He bought coffee at the kiosk." },
+    { word: "Knead", description: "To work dough", hindiDescription: "गूंधना", synonyms: ["massage", "work"], sentence: "She kneaded the bread dough." },
+    { word: "Knack", description: "A natural skill", hindiDescription: "हुनर", synonyms: ["talent", "gift"], sentence: "He has a knack for cooking." },
+    { word: "Knit", description: "To join closely", hindiDescription: "बुनना", synonyms: ["weave", "unite"], sentence: "She knit a warm scarf." },
+    { word: "Knock", description: "To strike or hit", hindiDescription: "खटखटाना", synonyms: ["hit", "tap"], sentence: "He knocked on the door." },
+    { word: "Know", description: "To understand or be aware", hindiDescription: "जानना", synonyms: ["understand", "recognize"], sentence: "She knows the truth." },
+    { word: "Kudos", description: "Praise or acclaim", hindiDescription: "प्रशंसा", synonyms: ["praise", "honor"], sentence: "He earned kudos for his work." },
+    { word: "Keenness", description: "Sharpness or eagerness", hindiDescription: "तीक्ष्णता", synonyms: ["sharpness", "enthusiasm"], sentence: "Her keenness was evident." },
+    { word: "Kernel", description: "A core or seed", hindiDescription: "बीज", synonyms: ["core", "essence"], sentence: "The kernel of truth emerged." },
+    { word: "Key", description: "Crucial or essential", hindiDescription: "महत्वपूर्ण", synonyms: ["vital", "essential"], sentence: "Timing is the key." },
+    { word: "Kick", description: "To strike with the foot", hindiDescription: "लात मारना", synonyms: ["strike", "boot"], sentence: "He kicked the ball hard." },
+    { word: "Kid", description: "To tease playfully", hindiDescription: "मज़ाक करना", synonyms: ["tease", "joke"], sentence: "She kidded him about his hat." },
+    { word: "Kin", description: "Relatives or family", hindiDescription: "परिवार", synonyms: ["family", "relatives"], sentence: "He visited his kin." },
+    { word: "Kite", description: "A flying object", hindiDescription: "पतंग", synonyms: ["glider", "soarer"], sentence: "They flew a kite in the park." },
+    { word: "Klutz", description: "A clumsy person", hindiDescription: "फूहड़", synonyms: ["clumsy", "awkward"], sentence: "He’s a klutz with tools." },
+    { word: "Kneel", description: "To rest on knees", hindiDescription: "घुटने टेकना", synonyms: ["bow", "crouch"], sentence: "She knelt to pray." },
+    { word: "Knife", description: "A cutting tool", hindiDescription: "चाकू", synonyms: ["blade", "cutter"], sentence: "He sharpened the knife." },
+    { word: "Knot", description: "A tight tangle", hindiDescription: "गाँठ", synonyms: ["tie", "tangle"], sentence: "She tied a knot in the rope." },
+    { word: "Knowledge", description: "Understanding or information", hindiDescription: "ज्ञान", synonyms: ["wisdom", "info"], sentence: "He has vast knowledge." },
+    { word: "Kooky", description: "Strange or eccentric", hindiDescription: "अजीब", synonyms: ["odd", "quirky"], sentence: "Her ideas were kooky." },
+    { word: "Kowtow", description: "To show excessive respect", hindiDescription: "झुकना", synonyms: ["bow", "submit"], sentence: "He refused to kowtow." },
+    { word: "Kudos", description: "Recognition for achievement", hindiDescription: "वाहवाही", synonyms: ["acclaim", "praise"], sentence: "She received kudos for effort." },
+    { word: "Kept", description: "Maintained or retained", hindiDescription: "रखा हुआ", synonyms: ["held", "stored"], sentence: "He kept the promise." },
+    { word: "Kind", description: "Gentle or caring", hindiDescription: "दयालु", synonyms: ["gentle", "benevolent"], sentence: "She’s kind to everyone." },
+    { word: "Kilter", description: "Proper condition", hindiDescription: "संतुलन", synonyms: ["order", "balance"], sentence: "Things were out of kilter." },
+    { word: "Kingdom", description: "A realm or domain", hindiDescription: "राज्य", synonyms: ["realm", "empire"], sentence: "The kingdom prospered." },
+
+    // L (30 words)
+    { word: "Lament", description: "To express sorrow", hindiDescription: "विलाप करना", synonyms: ["mourn", "grieve"], sentence: "She lamented his departure." },
+    { word: "Languid", description: "Lacking energy", hindiDescription: "सुस्त", synonyms: ["lethargic", "sluggish"], sentence: "He felt languid in the heat." },
+    { word: "Lapse", description: "A temporary failure", hindiDescription: "चूक", synonyms: ["slip", "error"], sentence: "There was a lapse in focus." },
+    { word: "Lash", description: "To strike or tie", hindiDescription: "कोड़ा मारना", synonyms: ["whip", "bind"], sentence: "She lashed the rope tight." },
+    { word: "Last", description: "Final or enduring", hindiDescription: "अंतिम", synonyms: ["final", "enduring"], sentence: "This will last forever." },
+    { word: "Latter", description: "The second of two", hindiDescription: "बाद वाला", synonyms: ["later", "second"], sentence: "She chose the latter option." },
+    { word: "Laud", description: "To praise highly", hindiDescription: "प्रशंसा करना", synonyms: ["praise", "extol"], sentence: "They lauded her bravery." },
+    { word: "Lavish", description: "Extravagantly rich", hindiDescription: "भव्य", synonyms: ["luxurious", "extravagant"], sentence: "The party was lavish." },
+    { word: "Lax", description: "Not strict or tight", hindiDescription: "ढीला", synonyms: ["loose", "lenient"], sentence: "His approach was too lax." },
+    { word: "Leap", description: "To jump or spring", hindiDescription: "छलांग लगाना", synonyms: ["jump", "bound"], sentence: "The deer leaped over the fence." },
+    { word: "Learn", description: "To gain knowledge", hindiDescription: "सीखना", synonyms: ["study", "acquire"], sentence: "She learned to cook." },
+    { word: "Legacy", description: "Something handed down", hindiDescription: "विरासत", synonyms: ["heritage", "bequest"], sentence: "He left a great legacy." },
+    { word: "Lend", description: "To give temporarily", hindiDescription: "उधार देना", synonyms: ["loan", "provide"], sentence: "She lent him a book." },
+    { word: "Lethal", description: "Capable of causing death", hindiDescription: "घातक", synonyms: ["deadly", "fatal"], sentence: "The poison was lethal." },
+    { word: "Level", description: "Flat or equal", hindiDescription: "स्तर", synonyms: ["flat", "even"], sentence: "The ground was level." },
+    { word: "Leverage", description: "To use for advantage", hindiDescription: "लाभ उठाना", synonyms: ["use", "exploit"], sentence: "She leveraged her skills." },
+    { word: "Liable", description: "Likely or responsible", hindiDescription: "जिम्मेदार", synonyms: ["likely", "accountable"], sentence: "He’s liable to forget." },
+    { word: "Liberal", description: "Generous or open-minded", hindiDescription: "उदार", synonyms: ["generous", "tolerant"], sentence: "She has liberal views." },
+    { word: "Lift", description: "To raise or elevate", hindiDescription: "उठाना", synonyms: ["raise", "hoist"], sentence: "He lifted the heavy box." },
+    { word: "Light", description: "Brightness or not heavy", hindiDescription: "प्रकाश", synonyms: ["bright", "easy"], sentence: "The room was full of light." },
+    { word: "Limp", description: "To walk unevenly", hindiDescription: "लंगड़ाना", synonyms: ["hobble", "stagger"], sentence: "He limped after the fall." },
+    { word: "Linger", description: "To stay longer", hindiDescription: "रुकना", synonyms: ["stay", "dawdle"], sentence: "She lingered at the park." },
+    { word: "Link", description: "To connect or join", hindiDescription: "जोड़ना", synonyms: ["connect", "join"], sentence: "They linked the ideas." },
+    { word: "List", description: "A series of items", hindiDescription: "सूची", synonyms: ["catalog", "roll"], sentence: "She made a shopping list." },
+    { word: "Lively", description: "Full of energy", hindiDescription: "जीवंत", synonyms: ["energetic", "vivid"], sentence: "The party was lively." },
+    { word: "Load", description: "To burden or fill", hindiDescription: "भार", synonyms: ["burden", "fill"], sentence: "He loaded the truck." },
+    { word: "Loathe", description: "To hate intensely", hindiDescription: "घृणा करना", synonyms: ["detest", "abhor"], sentence: "She loathes injustice." },
+    { word: "Loom", description: "To appear threateningly", hindiDescription: "सामने आना", synonyms: ["emerge", "threaten"], sentence: "Danger loomed ahead." },
+    { word: "Loyal", description: "Faithful or devoted", hindiDescription: "वफादार", synonyms: ["faithful", "true"], sentence: "He’s loyal to his friends." },
+    { word: "Lure", description: "To attract or entice", hindiDescription: "लुभाना", synonyms: ["attract", "tempt"], sentence: "The bait lured the fish." },
+
+    // M (30 words)
+    { word: "Magnify", description: "To enlarge or exaggerate", hindiDescription: "बड़ा करना", synonyms: ["enlarge", "amplify"], sentence: "The lens magnified the image." },
+    { word: "Maim", description: "To injure severely", hindiDescription: "अपंग करना", synonyms: ["cripple", "mutilate"], sentence: "The accident maimed him." },
+    { word: "Maintain", description: "To keep or preserve", hindiDescription: "बनाए रखना", synonyms: ["preserve", "sustain"], sentence: "She maintained her composure." },
+    { word: "Majestic", description: "Grand or impressive", hindiDescription: "शानदार", synonyms: ["grand", "noble"], sentence: "The palace was majestic." },
+    { word: "Malign", description: "To speak evil of", hindiDescription: "बदनाम करना", synonyms: ["slander", "defame"], sentence: "He maligned her reputation." },
+    { word: "Manage", description: "To handle or control", hindiDescription: "प्रबंध करना", synonyms: ["handle", "control"], sentence: "She managed the team well." },
+    { word: "Mandate", description: "An official order", hindiDescription: "आदेश", synonyms: ["command", "decree"], sentence: "The mandate was clear." },
+    { word: "Maneuver", description: "To move skillfully", hindiDescription: "चाल चलना", synonyms: ["navigate", "steer"], sentence: "He maneuvered through traffic." },
+    { word: "Margin", description: "An edge or border", hindiDescription: "हाशिया", synonyms: ["edge", "border"], sentence: "The note was in the margin." },
+    { word: "Marred", description: "Damaged or spoiled", hindiDescription: "खराब", synonyms: ["spoiled", "blemished"], sentence: "The surface was marred." },
+    { word: "Marvel", description: "To wonder or admire", hindiDescription: "आश्चर्य करना", synonyms: ["admire", "wonder"], sentence: "She marveled at the view." },
+    { word: "Master", description: "To become skilled", hindiDescription: "निपुण होना", synonyms: ["excel", "dominate"], sentence: "He mastered the craft." },
+    { word: "Mature", description: "Fully developed", hindiDescription: "परिपक्व", synonyms: ["ripe", "grown"], sentence: "She’s mature for her age." },
+    { word: "Meager", description: "Lacking in quantity", hindiDescription: "अल्प", synonyms: ["scant", "sparse"], sentence: "The meal was meager." },
+    { word: "Meddle", description: "To interfere", hindiDescription: "हस्तक्षेप करना", synonyms: ["interfere", "intrude"], sentence: "Don’t meddle in their affairs." },
+    { word: "Mellow", description: "Soft or relaxed", hindiDescription: "नरम", synonyms: ["soft", "calm"], sentence: "His voice was mellow." },
+    { word: "Mend", description: "To repair or heal", hindiDescription: "मरम्मत करना", synonyms: ["fix", "heal"], sentence: "She mended the shirt." },
+    { word: "Mercy", description: "Compassion or forgiveness", hindiDescription: "दया", synonyms: ["compassion", "leniency"], sentence: "He begged for mercy." },
+    { word: "Merit", description: "Worth or excellence", hindiDescription: "योग्यता", synonyms: ["value", "worth"], sentence: "Her work has merit." },
+    { word: "Mirth", description: "Amusement or laughter", hindiDescription: "हँसी", synonyms: ["glee", "joy"], sentence: "The room filled with mirth." },
+    { word: "Miser", description: "A stingy person", hindiDescription: "कंजूस", synonyms: ["stingy", "cheap"], sentence: "He’s a miser with money." },
+    { word: "Mimic", description: "To imitate or copy", hindiDescription: "नकल करना", synonyms: ["imitate", "copy"], sentence: "She mimicked his accent." },
+    { word: "Minor", description: "Lesser in importance", hindiDescription: "मामूली", synonyms: ["small", "lesser"], sentence: "It’s a minor issue." },
+    { word: "Mirthful", description: "Full of merriment", hindiDescription: "प्रसन्न", synonyms: ["joyful", "cheerful"], sentence: "They shared a mirthful moment." },
+    { word: "Mold", description: "To shape or form", hindiDescription: "ढालना", synonyms: ["shape", "form"], sentence: "She molded the clay." },
+    { word: "Moment", description: "A brief period", hindiDescription: "क्षण", synonyms: ["instant", "second"], sentence: "It lasted a moment." },
+    { word: "Monument", description: "A lasting tribute", hindiDescription: "स्मारक", synonyms: ["memorial", "statue"], sentence: "The monument honored heroes." },
+    { word: "Mood", description: "A state of feeling", hindiDescription: "मूड", synonyms: ["feeling", "temper"], sentence: "She’s in a good mood." },
+    { word: "Moral", description: "Relating to right and wrong", hindiDescription: "नैतिक", synonyms: ["ethical", "righteous"], sentence: "He faced a moral dilemma." },
+    { word: "Motive", description: "A reason for action", hindiDescription: "उद्देश्य", synonyms: ["reason", "purpose"], sentence: "Her motive was clear." },
+
+    // N (30 words)
+    { word: "Narcissist", description: "A self-absorbed person", hindiDescription: "आत्ममुग्ध", synonyms: ["egoist", "vain"], sentence: "He’s such a narcissist." },
+    { word: "Narrate", description: "To tell a story", hindiDescription: "वर्णन करना", synonyms: ["tell", "recite"], sentence: "She narrated her adventure." },
+    { word: "Narrow", description: "Limited in width", hindiDescription: "संकीर्ण", synonyms: ["slim", "tight"], sentence: "The path was narrow." },
+    { word: "Nascent", description: "Just beginning", hindiDescription: "नवजात", synonyms: ["emerging", "new"], sentence: "The idea is still nascent." },
+    { word: "Navigate", description: "To plan a course", hindiDescription: "नेविगेट करना", synonyms: ["steer", "guide"], sentence: "He navigated the ship." },
+    { word: "Nebulous", description: "Vague or unclear", hindiDescription: "अस्पष्ट", synonyms: ["hazy", "vague"], sentence: "Her plans were nebulous." },
+    { word: "Need", description: "A requirement or lack", hindiDescription: "आवश्यकता", synonyms: ["want", "necessity"], sentence: "She has a need for help." },
+    { word: "Neglect", description: "To ignore or abandon", hindiDescription: "उपेक्षा करना", synonyms: ["ignore", "overlook"], sentence: "Don’t neglect your duties." },
+    { word: "Nerve", description: "Courage or boldness", hindiDescription: "साहस", synonyms: ["courage", "bravery"], sentence: "He had the nerve to speak." },
+    { word: "Nestle", description: "To settle snugly", hindiDescription: "घोंसला बनाना", synonyms: ["snuggle", "cuddle"], sentence: "She nestled in the blanket." },
+    { word: "Neutral", description: "Not taking sides", hindiDescription: "तटस्थ", synonyms: ["impartial", "unbiased"], sentence: "He remained neutral." },
+    { word: "Niche", description: "A specialized role", hindiDescription: "स्थान", synonyms: ["role", "spot"], sentence: "She found her niche." },
+    { word: "Nimble", description: "Quick and light", hindiDescription: "फुर्तीला", synonyms: ["agile", "swift"], sentence: "The dancer was nimble." },
+    { word: "Noble", description: "Honest or distinguished", hindiDescription: "उच्च", synonyms: ["honest", "grand"], sentence: "He’s a noble leader." },
+    { word: "Nod", description: "To agree or signal", hindiDescription: "सिर हिलाना", synonyms: ["gesture", "signal"], sentence: "She nodded in approval." },
+    { word: "Noise", description: "Loud or unwanted sound", hindiDescription: "शोर", synonyms: ["sound", "din"], sentence: "The noise woke her up." },
+    { word: "Nomad", description: "A wandering person", hindiDescription: "खानाबदोश", synonyms: ["wanderer", "roamer"], sentence: "He lived like a nomad." },
+    { word: "Normal", description: "Usual or typical", hindiDescription: "सामान्य", synonyms: ["usual", "typical"], sentence: "It’s a normal day." },
+    { word: "Notable", description: "Worthy of attention", hindiDescription: "उल्लेखनीय", synonyms: ["remarkable", "noteworthy"], sentence: "Her work is notable." },
+    { word: "Notice", description: "To observe or mention", hindiDescription: "सूचना", synonyms: ["observe", "see"], sentence: "He noticed the change." },
+    { word: "Nourish", description: "To feed or sustain", hindiDescription: "पोषण करना", synonyms: ["feed", "sustain"], sentence: "She nourished the plants." },
+    { word: "Novel", description: "New or unusual", hindiDescription: "नया", synonyms: ["new", "original"], sentence: "It’s a novel idea." },
+    { word: "Nudge", description: "To push gently", hindiDescription: "हल्के से धक्का देना", synonyms: ["poke", "prod"], sentence: "She nudged him awake." },
+    { word: "Numb", description: "Lacking sensation", hindiDescription: "सुन्न", synonyms: ["insensitive", "deadened"], sentence: "His fingers were numb." },
+    { word: "Nurture", description: "To care for or encourage", hindiDescription: "पालन करना", synonyms: ["care", "foster"], sentence: "She nurtured her child." },
+    { word: "Naive", description: "Lacking experience", hindiDescription: "भोला", synonyms: ["innocent", "simple"], sentence: "He was naive about life." },
+    { word: "Nasty", description: "Unpleasant or mean", hindiDescription: "घटिया", synonyms: ["mean", "foul"], sentence: "The weather turned nasty." },
+    { word: "Neat", description: "Tidy or orderly", hindiDescription: "साफ", synonyms: ["tidy", "clean"], sentence: "Her room is neat." },
+    { word: "Nexus", description: "A connection or link", hindiDescription: "संबंध", synonyms: ["link", "bond"], sentence: "It’s the nexus of ideas." },
+    { word: "Nifty", description: "Clever or stylish", hindiDescription: "चतुर", synonyms: ["clever", "cool"], sentence: "That’s a nifty gadget." },
+
+    // O (30 words)
+    { word: "Obey", description: "To follow orders", hindiDescription: "आज्ञा मानना", synonyms: ["comply", "follow"], sentence: "She obeyed the rules." },
+    { word: "Oblige", description: "To do a favor", hindiDescription: "उपकृत करना", synonyms: ["favor", "assist"], sentence: "He obliged her with help." },
+    { word: "Obscure", description: "Not clear or hidden", hindiDescription: "अस्पष्ट", synonyms: ["vague", "hidden"], sentence: "The meaning was obscure." },
+    { word: "Observe", description: "To watch or notice", hindiDescription: "निरीक्षण करना", synonyms: ["watch", "notice"], sentence: "She observed the stars." },
+    { word: "Obstruct", description: "To block or hinder", hindiDescription: "रोकना", synonyms: ["block", "hinder"], sentence: "The tree obstructed the path." },
+    { word: "Obtain", description: "To acquire or get", hindiDescription: "प्राप्त करना", synonyms: ["get", "acquire"], sentence: "He obtained a permit." },
+    { word: "Occupy", description: "To fill or inhabit", hindiDescription: "कब्जा करना", synonyms: ["fill", "inhabit"], sentence: "They occupied the house." },
+    { word: "Occur", description: "To happen or take place", hindiDescription: "होना", synonyms: ["happen", "arise"], sentence: "The event occurred at noon." },
+    { word: "Odor", description: "A smell or scent", hindiDescription: "गंध", synonyms: ["smell", "scent"], sentence: "The flower had a sweet odor." },
+    { word: "Offer", description: "To present or propose", hindiDescription: "प्रस्ताव करना", synonyms: ["present", "propose"], sentence: "She offered her help." },
+    { word: "Omit", description: "To leave out", hindiDescription: "छोड़ देना", synonyms: ["exclude", "skip"], sentence: "He omitted a detail." },
+    { word: "Onset", description: "The beginning", hindiDescription: "शुरुआत", synonyms: ["start", "beginning"], sentence: "The onset of rain surprised us." },
+    { word: "Opaque", description: "Not transparent", hindiDescription: "अपारदर्शी", synonyms: ["cloudy", "dense"], sentence: "The glass was opaque." },
+    { word: "Open", description: "Not closed or accessible", hindiDescription: "खुला", synonyms: ["unlocked", "available"], sentence: "The door was open." },
+    { word: "Opt", description: "To choose or decide", hindiDescription: "चुनना", synonyms: ["choose", "select"], sentence: "She opted for tea." },
+    { word: "Ordeal", description: "A difficult experience", hindiDescription: "कठिनाई", synonyms: ["trial", "hardship"], sentence: "It was a tough ordeal." },
+    { word: "Origin", description: "The starting point", hindiDescription: "उत्पत्ति", synonyms: ["source", "beginning"], sentence: "The origin of the river is here." },
+    { word: "Ostentatious", description: "Showy or pretentious", hindiDescription: "आडंबरपूर्ण", synonyms: ["showy", "flashy"], sentence: "His style was ostentatious." },
+    { word: "Outdo", description: "To surpass or excel", hindiDescription: "बढ़ना", synonyms: ["exceed", "surpass"], sentence: "She outdid her peers." },
+    { word: "Outfit", description: "A set of clothes", hindiDescription: "पोशाक", synonyms: ["attire", "gear"], sentence: "He wore a new outfit." },
+    { word: "Outrage", description: "Extreme anger", hindiDescription: "आक्रोश", synonyms: ["anger", "fury"], sentence: "The news sparked outrage." },
+    { word: "Oval", description: "Egg-shaped", hindiDescription: "अंडाकार", synonyms: ["elliptical", "rounded"], sentence: "The mirror was oval." },
+    { word: "Overcome", description: "To defeat or succeed", hindiDescription: "काबू पाना", synonyms: ["conquer", "beat"], sentence: "She overcame her fears." },
+    { word: "Overlook", description: "To miss or ignore", hindiDescription: "अनदेखा करना", synonyms: ["ignore", "miss"], sentence: "Don’t overlook the details." },
+    { word: "Overt", description: "Open and obvious", hindiDescription: "प्रकट", synonyms: ["obvious", "clear"], sentence: "His actions were overt." },
+    { word: "Owe", description: "To be indebted", hindiDescription: "ऋणी होना", synonyms: ["indebted", "obliged"], sentence: "She owes him a favor." },
+    { word: "Own", description: "To possess", hindiDescription: "अपना", synonyms: ["possess", "have"], sentence: "He owns a car." },
+    { word: "Ooze", description: "To flow slowly", hindiDescription: "रिसना", synonyms: ["seep", "leak"], sentence: "Mud oozed from the ground." },
+    { word: "Oppress", description: "To keep down by force", hindiDescription: "दबाना", synonyms: ["suppress", "tyrannize"], sentence: "They oppressed the weak." },
+    { word: "Orbit", description: "To circle around", hindiDescription: "परिक्रमा करना", synonyms: ["circle", "revolve"], sentence: "The moon orbits Earth." },
+
+    // P (30 words)
+    { word: "Pace", description: "Speed or rate", hindiDescription: "गति", synonyms: ["speed", "tempo"], sentence: "She set a fast pace." },
+    { word: "Pacify", description: "To calm or soothe", hindiDescription: "शांत करना", synonyms: ["calm", "soothe"], sentence: "He pacified the crying child." },
+    { word: "Pain", description: "Physical or emotional suffering", hindiDescription: "दर्द", synonyms: ["ache", "hurt"], sentence: "She felt sharp pain." },
+    { word: "Pair", description: "Two of something", hindiDescription: "जोड़ा", synonyms: ["couple", "duo"], sentence: "He bought a pair of shoes." },
+    { word: "Pale", description: "Light in color", hindiDescription: "फीका", synonyms: ["faint", "white"], sentence: "Her face turned pale." },
+    { word: "Palm", description: "The inner hand", hindiDescription: "हथेली", synonyms: ["hand", "grasp"], sentence: "She held it in her palm." },
+    { word: "Panic", description: "Sudden fear", hindiDescription: "घबराहट", synonyms: ["fear", "alarm"], sentence: "Panic spread through the crowd." },
+    { word: "Parade", description: "A public procession", hindiDescription: "जुलूस", synonyms: ["procession", "march"], sentence: "The parade was colorful." },
+    { word: "Pardon", description: "To forgive", hindiDescription: "माफी", synonyms: ["forgive", "excuse"], sentence: "She pardoned his mistake." },
+    { word: "Part", description: "To divide or separate", hindiDescription: "अलग करना", synonyms: ["divide", "split"], sentence: "They parted ways." },
+// Q (30 words)
+    { word: "Quaint", description: "Charmingly old-fashioned", hindiDescription: "अनोखा", synonyms: ["charming", "old-fashioned"], sentence: "The village was quaint and peaceful." },
+    { word: "Quake", description: "To shake or tremble", hindiDescription: "कांपना", synonyms: ["tremble", "shiver"], sentence: "The ground began to quake." },
+    { word: "Qualify", description: "To meet requirements", hindiDescription: "योग्य होना", synonyms: ["meet", "pass"], sentence: "She qualified for the job." },
+    { word: "Quarrel", description: "An angry argument", hindiDescription: "झगड़ा", synonyms: ["argument", "dispute"], sentence: "They had a quarrel over money." },
+    { word: "Quash", description: "To suppress or crush", hindiDescription: "दबाना", synonyms: ["crush", "suppress"], sentence: "He quashed the rumors." },
+    { word: "Quest", description: "A search or pursuit", hindiDescription: "खोज", synonyms: ["search", "journey"], sentence: "Her quest for truth continued." },
+    { word: "Queue", description: "A line of people", hindiDescription: "कतार", synonyms: ["line", "row"], sentence: "They stood in a queue." },
+    { word: "Quick", description: "Fast or prompt", hindiDescription: "तेज", synonyms: ["fast", "swift"], sentence: "She gave a quick reply." },
+    { word: "Quiet", description: "Silent or calm", hindiDescription: "शांत", synonyms: ["silent", "calm"], sentence: "The room was quiet." },
+    { word: "Quirk", description: "An unusual trait", hindiDescription: "विचित्रता", synonyms: ["oddity", "peculiarity"], sentence: "His quirk amused everyone." },
+    { word: "Quell", description: "To calm or subdue", hindiDescription: "शांत करना", synonyms: ["calm", "pacify"], sentence: "She quelled their fears." },
+    { word: "Query", description: "A question or doubt", hindiDescription: "प्रश्न", synonyms: ["question", "inquiry"], sentence: "He raised a query." },
+    { word: "Quota", description: "A fixed share", hindiDescription: "कोटा", synonyms: ["share", "portion"], sentence: "She met her sales quota." },
+    { word: "Quench", description: "To satisfy or extinguish", hindiDescription: "बुझाना", synonyms: ["satisfy", "douse"], sentence: "Water quenched his thirst." },
+    { word: "Quibble", description: "To argue over small details", hindiDescription: "छोटी बात पर बहस करना", synonyms: ["nitpick", "argue"], sentence: "They quibbled over the price." },
+    { word: "Quintessential", description: "Most typical or perfect", hindiDescription: "प्रमुख", synonyms: ["typical", "ideal"], sentence: "She’s the quintessential leader." },
+    { word: "Quiz", description: "To test or question", hindiDescription: "प्रश्नोत्तरी करना", synonyms: ["test", "interrogate"], sentence: "He quizzed her on history." },
+    { word: "Quip", description: "A witty remark", hindiDescription: "चुटकुला", synonyms: ["joke", "witticism"], sentence: "She made a clever quip." },
+    { word: "Quiver", description: "To tremble slightly", hindiDescription: "कांपना", synonyms: ["shake", "tremble"], sentence: "Her voice quivered with emotion." },
+    { word: "Quote", description: "To repeat words", hindiDescription: "उद्धृत करना", synonyms: ["cite", "repeat"], sentence: "He quoted a famous line." },
+    { word: "Quack", description: "A fake expert", hindiDescription: "नीम-हकीम", synonyms: ["fraud", "charlatan"], sentence: "The quack sold fake cures." },
+    { word: "Quadrant", description: "A section or quarter", hindiDescription: "चतुर्थांश", synonyms: ["section", "quarter"], sentence: "They searched one quadrant." },
+    { word: "Qualm", description: "A feeling of unease", hindiDescription: "संकोच", synonyms: ["doubt", "unease"], sentence: "She had no qualms about it." },
+    { word: "Quarry", description: "A hunted object or mine", hindiDescription: "शिकार", synonyms: ["prey", "mine"], sentence: "The lion stalked its quarry." },
+    { word: "Quasi", description: "Seemingly but not really", hindiDescription: "प्रकट रूप से", synonyms: ["apparent", "seemingly"], sentence: "It was a quasi-success." },
+    { word: "Quellable", description: "Able to be calmed", hindiDescription: "शांत करने योग्य", synonyms: ["calmable", "pacifiable"], sentence: "The unrest was quellable." },
+    { word: "Querulous", description: "Complaining or whining", hindiDescription: "शिकायती", synonyms: ["whiny", "petulant"], sentence: "His tone was querulous." },
+    { word: "Quixotic", description: "Unrealistically optimistic", hindiDescription: "अवास्तविक", synonyms: ["idealistic", "impractical"], sentence: "His plan was quixotic." },
+    { word: "Quotient", description: "A result of division", hindiDescription: "भागफल", synonyms: ["ratio", "result"], sentence: "The quotient was calculated." },
+    { word: "Quorum", description: "Minimum number needed", hindiDescription: "कोरम", synonyms: ["minimum", "threshold"], sentence: "They lacked a quorum." },
+
+    // R (30 words)
+    { word: "Radiant", description: "Bright or shining", hindiDescription: "चमकदार", synonyms: ["bright", "glowing"], sentence: "Her smile was radiant." },
+    { word: "Rage", description: "Intense anger", hindiDescription: "क्रोध", synonyms: ["fury", "wrath"], sentence: "He shouted in rage." },
+    { word: "Raid", description: "A sudden attack", hindiDescription: "छापा", synonyms: ["attack", "assault"], sentence: "They planned a raid." },
+    { word: "Raise", description: "To lift or increase", hindiDescription: "उठाना", synonyms: ["lift", "boost"], sentence: "She raised her hand." },
+    { word: "Rally", description: "To gather or recover", hindiDescription: "एकत्र करना", synonyms: ["gather", "revive"], sentence: "They rallied for support." },
+    { word: "Ramble", description: "To wander or talk aimlessly", hindiDescription: "भटकना", synonyms: ["wander", "digress"], sentence: "He rambled through the woods." },
+    { word: "Rampant", description: "Widespread or uncontrolled", hindiDescription: "अनियंत्रित", synonyms: ["widespread", "unrestrained"], sentence: "Crime was rampant." },
+    { word: "Rancor", description: "Bitter resentment", hindiDescription: "कटुता", synonyms: ["bitterness", "spite"], sentence: "She spoke with rancor." },
+    { word: "Random", description: "Without pattern", hindiDescription: "यादृच्छिक", synonyms: ["chance", "haphazard"], sentence: "He picked a random card." },
+    { word: "Range", description: "A variety or extent", hindiDescription: "सीमा", synonyms: ["variety", "scope"], sentence: "The range of options was wide." },
+    { word: "Rank", description: "Position or level", hindiDescription: "पद", synonyms: ["level", "grade"], sentence: "He rose in rank." },
+    { word: "Rant", description: "To speak loudly", hindiDescription: "चिल्लाना", synonyms: ["rave", "shout"], sentence: "He ranted about the delay." },
+    { word: "Rap", description: "To strike sharply", hindiDescription: "खटखटाना", synonyms: ["tap", "knock"], sentence: "She rapped on the door." },
+    { word: "Rare", description: "Uncommon or scarce", hindiDescription: "दुर्लभ", synonyms: ["uncommon", "scarce"], sentence: "The gem was rare." },
+    { word: "Rash", description: "Hasty or reckless", hindiDescription: "उतावला", synonyms: ["reckless", "impulsive"], sentence: "He made a rash choice." },
+    { word: "Rasp", description: "A harsh sound", hindiDescription: "कर्कश ध्वनि", synonyms: ["grate", "scrape"], sentence: "His voice had a rasp." },
+    { word: "Ratify", description: "To approve formally", hindiDescription: "पुष्टि करना", synonyms: ["approve", "confirm"], sentence: "They ratified the agreement." },
+    { word: "Ravage", description: "To destroy or devastate", hindiDescription: "नष्ट करना", synonyms: ["destroy", "ruin"], sentence: "The storm ravaged the town." },
+    { word: "Rave", description: "To praise enthusiastically", hindiDescription: "प्रशंसा करना", synonyms: ["praise", "gush"], sentence: "She raved about the movie." },
+    { word: "Raw", description: "Unprocessed or crude", hindiDescription: "कच्चा", synonyms: ["crude", "unrefined"], sentence: "The meat was raw." },
+    { word: "Raze", description: "To demolish completely", hindiDescription: "ध्वस्त करना", synonyms: ["destroy", "level"], sentence: "They razed the building." },
+    { word: "Reach", description: "To arrive or extend", hindiDescription: "पहुंचना", synonyms: ["arrive", "extend"], sentence: "He reached the top." },
+    { word: "React", description: "To respond", hindiDescription: "प्रतिक्रिया करना", synonyms: ["respond", "reply"], sentence: "She reacted with surprise." },
+    { word: "Read", description: "To interpret written words", hindiDescription: "पढ़ना", synonyms: ["study", "scan"], sentence: "He read the book." },
+    { word: "Ready", description: "Prepared or willing", hindiDescription: "तैयार", synonyms: ["prepared", "set"], sentence: "She was ready to go." },
+    { word: "Reap", description: "To harvest or gain", hindiDescription: "काटना", synonyms: ["harvest", "collect"], sentence: "They reaped the crops." },
+    { word: "Rear", description: "To raise or back part", hindiDescription: "पालन करना", synonyms: ["raise", "back"], sentence: "She reared the children." },
+    { word: "Rebel", description: "To resist authority", hindiDescription: "विद्रोह करना", synonyms: ["resist", "defy"], sentence: "He rebelled against the rules." },
+    { word: "Recall", description: "To remember or call back", hindiDescription: "याद करना", synonyms: ["remember", "retrieve"], sentence: "She recalled the event." },
+    { word: "Recede", description: "To move back", hindiDescription: "पीछे हटना", synonyms: ["retreat", "withdraw"], sentence: "The floodwaters receded." },
+
+    // S (30 words)
+    { word: "Sacred", description: "Holy or revered", hindiDescription: "पवित्र", synonyms: ["holy", "sacred"], sentence: "The temple is sacred." },
+    { word: "Sad", description: "Unhappy or sorrowful", hindiDescription: "उदास", synonyms: ["unhappy", "sorrowful"], sentence: "She felt sad after the news." },
+    { word: "Safe", description: "Secure or protected", hindiDescription: "सुरक्षित", synonyms: ["secure", "protected"], sentence: "The house was safe." },
+    { word: "Sage", description: "Wise or prudent", hindiDescription: "ऋषि", synonyms: ["wise", "prudent"], sentence: "He’s a sage advisor." },
+    { word: "Sail", description: "To travel by water", hindiDescription: "नौकायन करना", synonyms: ["cruise", "navigate"], sentence: "They sailed across the sea." },
+    { word: "Salute", description: "To greet or honor", hindiDescription: "सलाम करना", synonyms: ["greet", "honor"], sentence: "He saluted the flag." },
+    { word: "Salvage", description: "To save or recover", hindiDescription: "बचाना", synonyms: ["save", "recover"], sentence: "They salvaged the wreckage." },
+    { word: "Sample", description: "A small portion", hindiDescription: "नमूना", synonyms: ["portion", "example"], sentence: "She took a sample." },
+    { word: "Sanctuary", description: "A safe place", hindiDescription: "आश्रय", synonyms: ["refuge", "haven"], sentence: "The forest was a sanctuary." },
+    { word: "Sane", description: "Mentally sound", hindiDescription: "विवेकपूर्ण", synonyms: ["rational", "sound"], sentence: "He remained sane under pressure." },
+    { word: "Savor", description: "To enjoy fully", hindiDescription: "स्वाद लेना", synonyms: ["enjoy", "relish"], sentence: "She savored the meal." },
+    { word: "Scale", description: "To climb or measure", hindiDescription: "चढ़ना", synonyms: ["climb", "measure"], sentence: "He scaled the mountain." },
+    { word: "Scant", description: "Barely sufficient", hindiDescription: "अल्प", synonyms: ["scarce", "meager"], sentence: "Resources were scant." },
+    { word: "Scare", description: "To frighten", hindiDescription: "डराना", synonyms: ["frighten", "alarm"], sentence: "The noise scared her." },
+    { word: "Scatter", description: "To spread apart", hindiDescription: "बिखेरना", synonyms: ["spread", "disperse"], sentence: "Leaves scattered in the wind." },
+    { word: "Scent", description: "A smell or fragrance", hindiDescription: "सुगंध", synonyms: ["smell", "fragrance"], sentence: "The scent was pleasant." },
+    { word: "Scheme", description: "A plan or plot", hindiDescription: "योजना", synonyms: ["plan", "plot"], sentence: "They devised a scheme." },
+    { word: "Scold", description: "To reprimand", hindiDescription: "डांटना", synonyms: ["reprimand", "chide"], sentence: "She scolded the child." },
+    { word: "Scope", description: "Range or extent", hindiDescription: "दायरा", synonyms: ["range", "extent"], sentence: "The project has wide scope." },
+    { word: "Scorch", description: "To burn slightly", hindiDescription: "झुलसाना", synonyms: ["burn", "sear"], sentence: "The sun scorched the grass." },
+    { word: "Scorn", description: "Contempt or disdain", hindiDescription: "तिरस्कार", synonyms: ["contempt", "disdain"], sentence: "He spoke with scorn." },
+    { word: "Scour", description: "To clean or search", hindiDescription: "खोजना", synonyms: ["clean", "search"], sentence: "She scoured the pot." },
+    { word: "Scrap", description: "A small piece", hindiDescription: "टुकड़ा", synonyms: ["piece", "fragment"], sentence: "He kept a scrap of paper." },
+    { word: "Scream", description: "A loud cry", hindiDescription: "चीख", synonyms: ["shout", "yell"], sentence: "She let out a scream." },
+    { word: "Screen", description: "To shield or filter", hindiDescription: "छानना", synonyms: ["shield", "filter"], sentence: "They screened the applicants." },
+    { word: "Scribe", description: "A writer or copier", hindiDescription: "लेखक", synonyms: ["writer", "clerk"], sentence: "The scribe recorded the tale." },
+    { word: "Scrutiny", description: "Close examination", hindiDescription: "जांच", synonyms: ["inspection", "examination"], sentence: "It passed scrutiny." },
+    { word: "Seal", description: "To close or secure", hindiDescription: "मोहर लगाना", synonyms: ["close", "secure"], sentence: "She sealed the envelope." },
+    { word: "Seam", description: "A line of stitching", hindiDescription: "सीवन", synonyms: ["stitch", "joint"], sentence: "The seam was neat." },
+    { word: "Sear", description: "To burn or char", hindiDescription: "दागना", synonyms: ["burn", "char"], sentence: "He seared the meat." },
+
+    // T (30 words)
+    { word: "Tact", description: "Sensitivity in dealing", hindiDescription: "चतुराई", synonyms: ["diplomacy", "sensitivity"], sentence: "She handled it with tact." },
+    { word: "Tail", description: "To follow or end", hindiDescription: "पूंछ", synonyms: ["follow", "end"], sentence: "He tailed the suspect." },
+    { word: "Taint", description: "To contaminate", hindiDescription: "दूषित करना", synonyms: ["contaminate", "spoil"], sentence: "The water was tainted." },
+    { word: "Tame", description: "To domesticate", hindiDescription: "पालतू बनाना", synonyms: ["domesticate", "calm"], sentence: "He tamed the wild horse." },
+    { word: "Tangent", description: "A sudden digression", hindiDescription: "स्पर्शरेखा", synonyms: ["digression", "offshoot"], sentence: "He went off on a tangent." },
+    { word: "Tangle", description: "To twist or confuse", hindiDescription: "उलझाना", synonyms: ["twist", "entangle"], sentence: "The wires were tangled." },
+    { word: "Tap", description: "To strike lightly", hindiDescription: "थपथपाना", synonyms: ["strike", "touch"], sentence: "She tapped his shoulder." },
+    { word: "Tardy", description: "Late or delayed", hindiDescription: "देर", synonyms: ["late", "delayed"], sentence: "He was tardy for class." },
+    { word: "Task", description: "A piece of work", hindiDescription: "कार्य", synonyms: ["job", "duty"], sentence: "She completed the task." },
+    { word: "Taste", description: "To sense flavor", hindiDescription: "स्वाद लेना", synonyms: ["sample", "savor"], sentence: "He tasted the soup." },
+    { word: "Taunt", description: "To mock or tease", hindiDescription: "ताना मारना", synonyms: ["mock", "tease"], sentence: "They taunted him mercilessly." },
+    { word: "Teach", description: "To impart knowledge", hindiDescription: "सिखाना", synonyms: ["instruct", "educate"], sentence: "She taught the class." },
+    { word: "Tear", description: "To rip or cry", hindiDescription: "फाड़ना", synonyms: ["rip", "shred"], sentence: "He tore the paper." },
+    { word: "Tease", description: "To playfully provoke", hindiDescription: "छेड़ना", synonyms: ["provoke", "joke"], sentence: "She teased him about his hair." },
+    { word: "Tedious", description: "Boring or tiresome", hindiDescription: "उबाऊ", synonyms: ["boring", "dull"], sentence: "The task was tedious." },
+    { word: "Tell", description: "To inform or narrate", hindiDescription: "बताना", synonyms: ["inform", "narrate"], sentence: "He told a story." },
+    { word: "Temper", description: "Mood or to moderate", hindiDescription: "स्वभाव", synonyms: ["mood", "calm"], sentence: "She has a fiery temper." },
+    { word: "Tempt", description: "To entice or attract", hindiDescription: "लुभाना", synonyms: ["entice", "lure"], sentence: "The cake tempted her." },
+    { word: "Tend", description: "To care for or incline", hindiDescription: "देखभाल करना", synonyms: ["care", "lean"], sentence: "She tends to the garden." },
+    { word: "Tense", description: "Tight or nervous", hindiDescription: "तनावपूर्ण", synonyms: ["tight", "anxious"], sentence: "The room felt tense." },
+    { word: "Term", description: "A word or period", hindiDescription: "शब्द", synonyms: ["word", "duration"], sentence: "He defined the term." },
+    { word: "Test", description: "To examine or try", hindiDescription: "परीक्षा करना", synonyms: ["examine", "trial"], sentence: "She tested her skills." },
+    { word: "Thaw", description: "To melt or warm", hindiDescription: "पिघलना", synonyms: ["melt", "soften"], sentence: "The ice began to thaw." },
+    { word: "Theft", description: "Act of stealing", hindiDescription: "चोरी", synonyms: ["stealing", "robbery"], sentence: "The theft was reported." },
+    { word: "Theme", description: "A central idea", hindiDescription: "विषय", synonyms: ["idea", "subject"], sentence: "The theme was love." },
+    { word: "Thin", description: "Not thick", hindiDescription: "पतला", synonyms: ["slim", "slender"], sentence: "The paper was thin." },
+    { word: "Thrive", description: "To prosper or grow", hindiDescription: "फलना-फूलना", synonyms: ["prosper", "flourish"], sentence: "The plants thrived." },
+    { word: "Throb", description: "To beat strongly", hindiDescription: "धड़कना", synonyms: ["pulse", "beat"], sentence: "Her head throbbed with pain." },
+    { word: "Thrust", description: "To push forcefully", hindiDescription: "धक्का देना", synonyms: ["push", "shove"], sentence: "He thrust the door open." },
+    { word: "Tidy", description: "Neat or orderly", hindiDescription: "साफ", synonyms: ["neat", "orderly"], sentence: "She kept the room tidy." },
+
+    // U (30 words)
+    { word: "Ubiquitous", description: "Present everywhere", hindiDescription: "सर्वव्यापी", synonyms: ["everywhere", "omnipresent"], sentence: "Smartphones are ubiquitous." },
+    { word: "Ugly", description: "Unattractive", hindiDescription: "बदसूरत", synonyms: ["unattractive", "hideous"], sentence: "The building was ugly." },
+    { word: "Ulterior", description: "Hidden or beyond", hindiDescription: "गुप्त", synonyms: ["hidden", "secret"], sentence: "He had an ulterior motive." },
+    { word: "Ultimate", description: "Final or greatest", hindiDescription: "अंतिम", synonyms: ["final", "supreme"], sentence: "This is the ultimate goal." },
+    { word: "Umpire", description: "A referee", hindiDescription: "निर्णायक", synonyms: ["referee", "judge"], sentence: "The umpire made the call." },
+    { word: "Unable", description: "Not able", hindiDescription: "असमर्थ", synonyms: ["incapable", "powerless"], sentence: "She was unable to lift it." },
+    { word: "Unanimous", description: "Fully agreed", hindiDescription: "सर्वसम्मति", synonyms: ["agreed", "united"], sentence: "The vote was unanimous." },
+    { word: "Unaware", description: "Not knowing", hindiDescription: "अनजान", synonyms: ["ignorant", "unconscious"], sentence: "He was unaware of the danger." },
+    { word: "Unbiased", description: "Fair or impartial", hindiDescription: "निष्पक्ष", synonyms: ["fair", "neutral"], sentence: "She gave an unbiased opinion." },
+    { word: "Uncertain", description: "Not sure", hindiDescription: "अनिश्चित", synonyms: ["unsure", "doubtful"], sentence: "The outcome is uncertain." },
+    { word: "Uncover", description: "To reveal or expose", hindiDescription: "उजागर करना", synonyms: ["reveal", "expose"], sentence: "They uncovered the truth." },
+    { word: "Undergo", description: "To experience", hindiDescription: "गुजरना", synonyms: ["experience", "endure"], sentence: "She underwent surgery." },
+    { word: "Underlying", description: "Basic or hidden", hindiDescription: "आधारभूत", synonyms: ["basic", "hidden"], sentence: "The underlying issue was clear." },
+    { word: "Undermine", description: "To weaken", hindiDescription: "कमजोर करना", synonyms: ["weaken", "subvert"], sentence: "He undermined her confidence." },
+    { word: "Undo", description: "To reverse or untie", hindiDescription: "वापस करना", synonyms: ["reverse", "untie"], sentence: "She undid the knot." },
+    { word: "Uneasy", description: "Nervous or restless", hindiDescription: "बेचैन", synonyms: ["nervous", "anxious"], sentence: "He felt uneasy about it." },
+    { word: "Unfold", description: "To open or reveal", hindiDescription: "खोलना", synonyms: ["open", "reveal"], sentence: "The story unfolded slowly." },
+    { word: "Unify", description: "To make one", hindiDescription: "एक करना", synonyms: ["unite", "merge"], sentence: "They unified their efforts." },
+    { word: "Unique", description: "One of a kind", hindiDescription: "अनोखा", synonyms: ["singular", "distinct"], sentence: "Her style is unique." },
+    { word: "Unit", description: "A single entity", hindiDescription: "इकाई", synonyms: ["entity", "piece"], sentence: "The family is a unit." },
+    { word: "Universe", description: "All existing matter", hindiDescription: "ब्रह्मांड", synonyms: ["cosmos", "world"], sentence: "The universe is vast." },
+    { word: "Unkempt", description: "Messy or untidy", hindiDescription: "अव्यवस्थित", synonyms: ["messy", "disheveled"], sentence: "His hair was unkempt." },
+    { word: "Unlike", description: "Different from", hindiDescription: "असमान", synonyms: ["different", "dissimilar"], sentence: "She’s unlike her sister." },
+    { word: "Unlock", description: "To open a lock", hindiDescription: "खोलना", synonyms: ["open", "release"], sentence: "He unlocked the door." },
+    { word: "Unravel", description: "To solve or undo", hindiDescription: "सुलझाना", synonyms: ["solve", "untangle"], sentence: "She unraveled the mystery." },
+    { word: "Unrest", description: "Disturbance or unease", hindiDescription: "अशांति", synonyms: ["disturbance", "turmoil"], sentence: "Unrest spread in the city." },
+    { word: "Unseen", description: "Not seen", hindiDescription: "अदृश्य", synonyms: ["hidden", "invisible"], sentence: "The danger was unseen." },
+    { word: "Unstable", description: "Not steady", hindiDescription: "अस्थिर", synonyms: ["unsteady", "shaky"], sentence: "The table was unstable." },
+    { word: "Untie", description: "To loosen or free", hindiDescription: "खोलना", synonyms: ["loosen", "release"], sentence: "She untied the rope." },
+    { word: "Uplift", description: "To raise or inspire", hindiDescription: "उठाना", synonyms: ["raise", "inspire"], sentence: "Her words uplifted him." },
+
+    // V (30 words)
+    { word: "Vacant", description: "Empty or unoccupied", hindiDescription: "खाली", synonyms: ["empty", "unfilled"], sentence: "The seat was vacant." },
+    { word: "Vague", description: "Unclear or uncertain", hindiDescription: "अस्पष्ट", synonyms: ["unclear", "hazy"], sentence: "His answer was vague." },
+    { word: "Vain", description: "Useless or conceited", hindiDescription: "व्यर्थ", synonyms: ["futile", "proud"], sentence: "Her efforts were in vain." },
+    { word: "Valid", description: "Legally sound", hindiDescription: "मान्य", synonyms: ["sound", "legal"], sentence: "The ticket is valid." },
+    { word: "Valor", description: "Bravery or courage", hindiDescription: "वीरता", synonyms: ["bravery", "courage"], sentence: "He showed great valor." },
+    { word: "Value", description: "Worth or importance", hindiDescription: "मूल्य", synonyms: ["worth", "merit"], sentence: "She values friendship." },
+    { word: "Vanish", description: "To disappear", hindiDescription: "गायब होना", synonyms: ["disappear", "fade"], sentence: "The fog vanished quickly." },
+    { word: "Vary", description: "To differ or change", hindiDescription: "बदलना", synonyms: ["differ", "change"], sentence: "Opinions vary widely." },
+    { word: "Vast", description: "Very large", hindiDescription: "विशाल", synonyms: ["huge", "immense"], sentence: "The desert is vast." },
+    { word: "Veer", description: "To turn aside", hindiDescription: "मुड़ना", synonyms: ["swerve", "turn"], sentence: "The car veered off." },
+    { word: "Veil", description: "To cover or hide", hindiDescription: "घूंघट", synonyms: ["cover", "conceal"], sentence: "She veiled her face." },
+    { word: "Venture", description: "A risky undertaking", hindiDescription: "जोखिम", synonyms: ["risk", "attempt"], sentence: "He started a new venture." },
+    { word: "Verdict", description: "A decision or judgment", hindiDescription: "निर्णय", synonyms: ["judgment", "ruling"], sentence: "The verdict was fair." },
+    { word: "Verify", description: "To confirm or check", hindiDescription: "सत्यापित करना", synonyms: ["confirm", "check"], sentence: "She verified the facts." },
+    { word: "Versatile", description: "Adaptable or multi-skilled", hindiDescription: "बहुमुखी", synonyms: ["adaptable", "flexible"], sentence: "He’s a versatile actor." },
+    { word: "Vest", description: "To grant or clothe", hindiDescription: "निहित करना", synonyms: ["grant", "endow"], sentence: "Power was vested in him." },
+    { word: "Vex", description: "To annoy or puzzle", hindiDescription: "चिढ़ाना", synonyms: ["annoy", "irritate"], sentence: "The problem vexed her." },
+    { word: "Vibrant", description: "Full of energy", hindiDescription: "जीवंत", synonyms: ["lively", "vivid"], sentence: "The colors were vibrant." },
+    { word: "Vice", description: "A bad habit", hindiDescription: "दुर्गुण", synonyms: ["flaw", "sin"], sentence: "Smoking is his vice." },
+    { word: "Victor", description: "A winner", hindiDescription: "विजेता", synonyms: ["winner", "champion"], sentence: "She was the victor." },
+    { word: "View", description: "To see or opinion", hindiDescription: "देखना", synonyms: ["see", "opinion"], sentence: "He viewed the scene." },
+    { word: "Vigil", description: "A watch or guard", hindiDescription: "जागरण", synonyms: ["watch", "guard"], sentence: "They kept a vigil." },
+    { word: "Vile", description: "Wicked or disgusting", hindiDescription: "घटिया", synonyms: ["evil", "foul"], sentence: "His words were vile." },
+    { word: "Vindicate", description: "To clear of blame", hindiDescription: "विशुद्ध करना", synonyms: ["justify", "clear"], sentence: "Evidence vindicated her." },
+    { word: "Violate", description: "To break or disregard", hindiDescription: "उल्लंघन करना", synonyms: ["break", "breach"], sentence: "He violated the rules." },
+    { word: "Virtue", description: "Moral excellence", hindiDescription: "गुण", synonyms: ["goodness", "merit"], sentence: "Patience is a virtue." },
+    { word: "Visible", description: "Able to be seen", hindiDescription: "दृश्य", synonyms: ["seen", "apparent"], sentence: "The stars were visible." },
+    { word: "Vision", description: "Sight or foresight", hindiDescription: "दृष्टि", synonyms: ["sight", "foresight"], sentence: "She has clear vision." },
+    { word: "Vital", description: "Essential or lively", hindiDescription: "महत्वपूर्ण", synonyms: ["essential", "crucial"], sentence: "Water is vital for life." },
+    { word: "Vivid", description: "Bright or clear", hindiDescription: "स्पष्ट", synonyms: ["bright", "clear"], sentence: "The memory was vivid." },
+
+    // W (30 words)
+    { word: "Wade", description: "To walk through water", hindiDescription: "पानी में चलना", synonyms: ["trudge", "splash"], sentence: "She waded across the stream." },
+    { word: "Waft", description: "To float gently", hindiDescription: "हवा में बहना", synonyms: ["float", "drift"], sentence: "The scent wafted through." },
+    { word: "Wage", description: "To carry on or pay", hindiDescription: "मजदूरी", synonyms: ["pay", "conduct"], sentence: "He waged a campaign." },
+    { word: "Wail", description: "To cry loudly", hindiDescription: "विलाप करना", synonyms: ["cry", "moan"], sentence: "She wailed in grief." },
+    { word: "Wait", description: "To stay or delay", hindiDescription: "प्रतीक्षा करना", synonyms: ["stay", "pause"], sentence: "He waited for her." },
+    { word: "Wake", description: "To rouse from sleep", hindiDescription: "जागना", synonyms: ["rouse", "awaken"], sentence: "She woke at dawn." },
+    { word: "Walk", description: "To move on foot", hindiDescription: "चलना", synonyms: ["stroll", "stride"], sentence: "They walked to the park." },
+    { word: "Wall", description: "A barrier or enclosure", hindiDescription: "दीवार", synonyms: ["barrier", "partition"], sentence: "The wall was high." },
+    { word: "Wane", description: "To decrease gradually", hindiDescription: "कम होना", synonyms: ["decrease", "fade"], sentence: "Her energy began to wane." },
+    { word: "Want", description: "To desire or need", hindiDescription: "चाहना", synonyms: ["desire", "need"], sentence: "She wants a new dress." },
+    { word: "Ward", description: "To protect or repel", hindiDescription: "रक्षा करना", synonyms: ["protect", "guard"], sentence: "He warded off the attack." },
+    { word: "Warm", description: "Moderately hot", hindiDescription: "गर्म", synonyms: ["hot", "cozy"], sentence: "The soup was warm." },
+    { word: "Warn", description: "To alert of danger", hindiDescription: "चेतावनी देना", synonyms: ["alert", "caution"], sentence: "She warned him early." },
+    { word: "Warp", description: "To twist or distort", hindiDescription: "मोड़ना", synonyms: ["twist", "bend"], sentence: "The wood warped in heat." },
+    { word: "Wary", description: "Cautious or suspicious", hindiDescription: "सावधान", synonyms: ["cautious", "watchful"], sentence: "He was wary of strangers." },
+    { word: "Wash", description: "To clean with water", hindiDescription: "धोना", synonyms: ["clean", "rinse"], sentence: "She washed the dishes." },
+    { word: "Waste", description: "To use carelessly", hindiDescription: "बर्बाद करना", synonyms: ["squander", "lose"], sentence: "Don’t waste time." },
+    { word: "Watch", description: "To observe or guard", hindiDescription: "देखना", synonyms: ["observe", "guard"], sentence: "He watched the kids." },
+    { word: "Wave", description: "To move back and forth", hindiDescription: "लहराना", synonyms: ["flutter", "swing"], sentence: "She waved goodbye." },
+    { word: "Wax", description: "To increase or grow", hindiDescription: "बढ़ना", synonyms: ["grow", "rise"], sentence: "The moon waxed full." },
+    { word: "Way", description: "A path or method", hindiDescription: "रास्ता", synonyms: ["path", "method"], sentence: "This is the way forward." },
+    { word: "Weak", description: "Lacking strength", hindiDescription: "कमजोर", synonyms: ["feeble", "frail"], sentence: "His voice was weak." },
+    { word: "Wealth", description: "Abundance of resources", hindiDescription: "धन", synonyms: ["riches", "fortune"], sentence: "She amassed great wealth." },
+    { word: "Wear", description: "To have on or erode", hindiDescription: "पहनना", synonyms: ["don", "erode"], sentence: "He wore a hat." },
+    { word: "Weave", description: "To interlace threads", hindiDescription: "बुनना", synonyms: ["knit", "intertwine"], sentence: "She wove a scarf." },
+    { word: "Wed", description: "To marry", hindiDescription: "शादी करना", synonyms: ["marry", "unite"], sentence: "They wed last summer." },
+    { word: "Weep", description: "To cry", hindiDescription: "रोना", synonyms: ["cry", "sob"], sentence: "She wept with joy." },
+    { word: "Weigh", description: "To measure weight", hindiDescription: "तौलना", synonyms: ["measure", "assess"], sentence: "He weighed the package." },
+    { word: "Weird", description: "Strange or odd", hindiDescription: "अजीब", synonyms: ["strange", "odd"], sentence: "The noise was weird." },
+    { word: "Wield", description: "To handle or control", hindiDescription: "चलाना", synonyms: ["handle", "use"], sentence: "He wielded the sword." },
+
+    // X (30 words)
+    { word: "X-axis", description: "Horizontal line in graph", hindiDescription: "एक्स-अक्ष", synonyms: ["horizontal", "base"], sentence: "Plot it on the x-axis." },
+    { word: "X-ray", description: "To see inside with radiation", hindiDescription: "एक्स-रे", synonyms: ["scan", "image"], sentence: "They x-rayed his arm." },
+    { word: "Xenophobic", description: "Fearful of foreigners", hindiDescription: "विदेशी-भय", synonyms: ["prejudiced", "fearful"], sentence: "He was xenophobic." },
+    { word: "Xerox", description: "To photocopy", hindiDescription: "प्रतिलिपि करना", synonyms: ["copy", "duplicate"], sentence: "She xeroxed the document." },
+    { word: "Xylophone", description: "A musical instrument", hindiDescription: "जाइलोफोन", synonyms: ["percussion", "tunes"], sentence: "He played the xylophone." },
+    { word: "X-factor", description: "Unique quality", hindiDescription: "विशेष गुण", synonyms: ["edge", "spark"], sentence: "She has the x-factor." },
+    { word: "X-mark", description: "A cross symbol", hindiDescription: "एक्स-चिह्न", synonyms: ["cross", "check"], sentence: "He made an x-mark." },
+    { word: "X-rated", description: "Explicit content", hindiDescription: "वयस्क", synonyms: ["adult", "explicit"], sentence: "The film was x-rated." },
+    { word: "X-section", description: "Cross-sectional view", hindiDescription: "पार-अनुभाग", synonyms: ["slice", "cut"], sentence: "They studied the x-section." },
+    { word: "Xanthic", description: "Yellowish in color", hindiDescription: "पीला", synonyms: ["yellow", "golden"], sentence: "The flower was xanthic." },
+    { word: "Xenon", description: "A chemical element", hindiDescription: "जेनॉन", synonyms: ["gas", "element"], sentence: "Xenon glows brightly." },
+    { word: "Xeric", description: "Dry or arid", hindiDescription: "शुष्क", synonyms: ["dry", "arid"], sentence: "The region is xeric." },
+    { word: "Xerophyte", description: "A desert plant", hindiDescription: "शुष्क-वनस्पति", synonyms: ["cactus", "succulent"], sentence: "Xerophytes thrive here." },
+    { word: "X-height", description: "Letter height in typography", hindiDescription: "एक्स-ऊंचाई", synonyms: ["size", "measure"], sentence: "Adjust the x-height." },
+    { word: "X-intercept", description: "Graph crossing x-axis", hindiDescription: "एक्स-अवरोधन", synonyms: ["intercept", "point"], sentence: "Find the x-intercept." },
+    { word: "X-linked", description: "Related to X chromosome", hindiDescription: "एक्स-संबंधित", synonyms: ["genetic", "linked"], sentence: "It’s an x-linked trait." },
+    { word: "X-mas", description: "Short for Christmas", hindiDescription: "क्रिसमस", synonyms: ["holiday", "festive"], sentence: "X-mas is near." },
+    { word: "X-out", description: "To cross out", hindiDescription: "काट देना", synonyms: ["delete", "strike"], sentence: "She x-ed out the error." },
+    { word: "X-rayed", description: "Examined with X-rays", hindiDescription: "एक्स-रे किया", synonyms: ["scanned", "imaged"], sentence: "The bone was x-rayed." },
+    { word: "X-treme", description: "Very extreme", hindiDescription: "अति", synonyms: ["extreme", "intense"], sentence: "It’s x-treme sports." },
+    { word: "Xanadu", description: "An idyllic place", hindiDescription: "स्वप्नलोक", synonyms: ["paradise", "haven"], sentence: "The garden was a xanadu." },
+    { word: "Xanthous", description: "Yellow or fair-haired", hindiDescription: "पीला", synonyms: ["yellow", "blond"], sentence: "Her hair was xanthous." },
+    { word: "Xenogenesis", description: "Origin from unlike forms", hindiDescription: "विषमजनन", synonyms: ["mutation", "origin"], sentence: "Xenogenesis fascinated him." },
+    { word: "Xeriscape", description: "Dry landscape design", hindiDescription: "शुष्क-भूदृश्य", synonyms: ["arid", "design"], sentence: "They used a xeriscape." },
+    { word: "Xiphoid", description: "Sword-shaped", hindiDescription: "तलवार जैसा", synonyms: ["pointed", "sharp"], sentence: "The bone is xiphoid." },
+    { word: "Xylograph", description: "A wood engraving", hindiDescription: "लकड़ी की नक्काशी", synonyms: ["engraving", "print"], sentence: "He made a xylograph." },
+    { word: "Xyster", description: "A surgical scraping tool", hindiDescription: "खुरचनी", synonyms: ["scraper", "tool"], sentence: "The xyster was sharp." },
+    { word: "Xanthine", description: "A chemical compound", hindiDescription: "जैंथिन", synonyms: ["compound", "substance"], sentence: "Xanthine is in tea." },
+    { word: "Xenophile", description: "Lover of foreign things", hindiDescription: "विदेशप्रेमी", synonyms: ["enthusiast", "lover"], sentence: "She’s a xenophile." },
+    { word: "Xeroderma", description: "Dry skin condition", hindiDescription: "शुष्क त्वचा", synonyms: ["dryness", "condition"], sentence: "He has xeroderma." },
+
+    // Y (30 words)
+    { word: "Yank", description: "To pull sharply", hindiDescription: "झटका देना", synonyms: ["pull", "jerk"], sentence: "She yanked the rope." },
+    { word: "Yard", description: "An outdoor area", hindiDescription: "आंगन", synonyms: ["garden", "space"], sentence: "The kids played in the yard." },
+    { word: "Yarn", description: "Thread or a story", hindiDescription: "धागा", synonyms: ["thread", "tale"], sentence: "She spun a yarn." },
+    { word: "Yawn", description: "To open mouth wide", hindiDescription: "जम्हाई लेना", synonyms: ["gape", "stretch"], sentence: "He yawned during the lecture." },
+    { word: "Yearn", description: "To long for", hindiDescription: "लालायित होना", synonyms: ["crave", "desire"], sentence: "She yearned for home." },
+    { word: "Yell", description: "To shout loudly", hindiDescription: "चिल्लाना", synonyms: ["shout", "scream"], sentence: "He yelled for help." },
+    { word: "Yield", description: "To produce or surrender", hindiDescription: "उत्पादन करना", synonyms: ["produce", "give"], sentence: "The tree yielded fruit." },
+    { word: "Yoke", description: "To join or burden", hindiDescription: "जुआ", synonyms: ["join", "burden"], sentence: "They yoked the oxen." },
+    { word: "Young", description: "Not old", hindiDescription: "युवा", synonyms: ["youthful", "new"], sentence: "The puppy is young." },
+    { word: "Youth", description: "Early life or young people", hindiDescription: "यौवन", synonyms: ["adolescence", "kids"], sentence: "Youth is a treasure." },
+    { word: "Yap", description: "To bark or chatter", hindiDescription: "भौंकना", synonyms: ["bark", "talk"], sentence: "The dog yapped loudly." },
+    { word: "Yare", description: "Quick or agile", hindiDescription: "तत्पर", synonyms: ["nimble", "ready"], sentence: "The boat was yare." },
+    { word: "Yea", description: "An affirmation", hindiDescription: "हाँ", synonyms: ["yes", "aye"], sentence: "She said yea to the plan." },
+    { word: "Yeast", description: "A rising agent", hindiDescription: "खमीर", synonyms: ["leaven", "ferment"], sentence: "Yeast made the dough rise." },
+    { word: "Yellowness", description: "A yellow hue", hindiDescription: "पीलापन", synonyms: ["yellow", "shade"], sentence: "The yellowness was bright." },
+    { word: "Yelp", description: "A sharp cry", hindiDescription: "चीख", synonyms: ["cry", "squeal"], sentence: "The puppy yelped in pain." },
+    { word: "Yen", description: "A strong desire", hindiDescription: "लालसा", synonyms: ["craving", "urge"], sentence: "She had a yen for travel." },
+    { word: "Yes", description: "An agreement", hindiDescription: "हाँ", synonyms: ["agree", "affirm"], sentence: "He said yes to the offer." },
+    { word: "Yet", description: "Up to now", hindiDescription: "अभी तक", synonyms: ["still", "so far"], sentence: "She hasn’t arrived yet." },
+    { word: "Yielding", description: "Giving way", hindiDescription: "झुकने वाला", synonyms: ["flexible", "soft"], sentence: "The material was yielding." },
+    { word: "Yodel", description: "To sing with pitch changes", hindiDescription: "योदल करना", synonyms: ["sing", "call"], sentence: "He yodeled in the mountains." },
+    { word: "Yoga", description: "A practice of exercise", hindiDescription: "योग", synonyms: ["exercise", "meditation"], sentence: "She practices yoga daily." },
+    { word: "Yoke", description: "A harness or burden", hindiDescription: "जोड़ा", synonyms: ["harness", "load"], sentence: "The yoke was heavy." },
+    { word: "Yolk", description: "Egg’s yellow part", hindiDescription: "जर्दी", synonyms: ["center", "core"], sentence: "The yolk was bright." },
+    { word: "Yonder", description: "Over there", hindiDescription: "उधर", synonyms: ["there", "distant"], sentence: "The hills are yonder." },
+    { word: "Yore", description: "Time long past", hindiDescription: "पुराना समय", synonyms: ["past", "olden"], sentence: "Tales of yore fascinated her." },
+    { word: "Youngster", description: "A young person", hindiDescription: "नौजवान", synonyms: ["kid", "youth"], sentence: "The youngster was curious." },
+    { word: "Yowl", description: "A loud wail", hindiDescription: "चीखना", synonyms: ["howl", "cry"], sentence: "The cat yowled at night." },
+    { word: "Yucky", description: "Unpleasant or gross", hindiDescription: "घटिया", synonyms: ["gross", "nasty"], sentence: "The food was yucky." },
+    { word: "Yummy", description: "Very tasty", hindiDescription: "स्वादिष्ट", synonyms: ["tasty", "delicious"], sentence: "The cake was yummy." },
+
+    // Z (30 words)
+    { word: "Zap", description: "To strike suddenly", hindiDescription: "झटका देना", synonyms: ["hit", "shock"], sentence: "She zapped the fly." },
+    { word: "Zeal", description: "Great enthusiasm", hindiDescription: "उत्साह", synonyms: ["passion", "fervor"], sentence: "He worked with zeal." },
+    { word: "Zealous", description: "Full of zeal", hindiDescription: "उत्साही", synonyms: ["eager", "ardent"], sentence: "She’s a zealous supporter." },
+    { word: "Zenith", description: "Highest point", hindiDescription: "शिखर", synonyms: ["peak", "top"], sentence: "He reached his zenith." },
+    { word: "Zero", description: "Nothing or none", hindiDescription: "शून्य", synonyms: ["none", "nil"], sentence: "The score was zero." },
+    { word: "Zest", description: "Enthusiasm or flavor", hindiDescription: "जोश", synonyms: ["enthusiasm", "tang"], sentence: "She added zest to life." },
+    { word: "Zigzag", description: "A sharp angled path", hindiDescription: "टेढ़ा-मेढ़ा", synonyms: ["crisscross", "winding"], sentence: "The road zigzagged uphill." },
+    { word: "Zillion", description: "A very large number", hindiDescription: "असंख्य", synonyms: ["tons", "many"], sentence: "He has a zillion ideas." },
+    { word: "Zinc", description: "A metallic element", hindiDescription: "जस्ता", synonyms: ["metal", "element"], sentence: "Zinc coated the iron." },
+    { word: "Zip", description: "To move quickly", hindiDescription: "तेजी से जाना", synonyms: ["rush", "dart"], sentence: "She zipped through the task." },
+    { word: "Zone", description: "A specific area", hindiDescription: "क्षेत्र", synonyms: ["area", "region"], sentence: "This is a quiet zone." },
+    { word: "Zoom", description: "To move rapidly", hindiDescription: "तेजी से बढ़ना", synonyms: ["speed", "race"], sentence: "The car zoomed past." },
+    { word: "Zany", description: "Amusingly eccentric", hindiDescription: "हास्यास्पद", synonyms: ["wacky", "funny"], sentence: "His ideas were zany." },
+    { word: "Zealot", description: "A fanatic", hindiDescription: "कट्टर", synonyms: ["fanatic", "extremist"], sentence: "He’s a zealot for the cause." },
+    { word: "Zephyr", description: "A gentle breeze", hindiDescription: "हल्की हवा", synonyms: ["breeze", "wind"], sentence: "A zephyr cooled the air." },
+    { word: "Zestful", description: "Full of zest", hindiDescription: "उत्साहपूर्ण", synonyms: ["lively", "energetic"], sentence: "She’s a zestful person." },
+    { word: "Zig", description: "A sharp turn", hindiDescription: "मुड़ना", synonyms: ["turn", "angle"], sentence: "The path took a zig." },
+    { word: "Zilch", description: "Nothing at all", hindiDescription: "कुछ नहीं", synonyms: ["nothing", "zero"], sentence: "He got zilch for effort." },
+    { word: "Zinger", description: "A witty remark", hindiDescription: "चुटकुला", synonyms: ["quip", "joke"], sentence: "She delivered a zinger." },
+    { word: "Zippy", description: "Lively or fast", hindiDescription: "फुर्तीला", synonyms: ["lively", "quick"], sentence: "The tune was zippy." },
+    { word: "Zodiac", description: "Astrological signs", hindiDescription: "राशिचक्र", synonyms: ["signs", "circle"], sentence: "Her zodiac is Leo." },
+    { word: "Zombie", description: "A lifeless being", hindiDescription: "जॉम्बी", synonyms: ["undead", "lifeless"], sentence: "He moved like a zombie." },
+    { word: "Zonal", description: "Relating to zones", hindiDescription: "क्षेत्रीय", synonyms: ["regional", "zonal"], sentence: "It’s a zonal division." },
+    { word: "Zoo", description: "A place for animals", hindiDescription: "चिड़ियाघर", synonyms: ["park", "menagerie"], sentence: "They visited the zoo." },
+    { word: "Zooty", description: "Stylish or flashy", hindiDescription: "आकर्षक", synonyms: ["flashy", "stylish"], sentence: "His suit was zooty." },
+    { word: "Zucchini", description: "A type of squash", hindiDescription: "तोरी", synonyms: ["squash", "vegetable"], sentence: "She cooked zucchini." },
+    { word: "Zymurgy", description: "Study of fermentation", hindiDescription: "किण्वन विज्ञान", synonyms: ["brewing", "fermentation"], sentence: "Zymurgy fascinated him." },
+    { word: "Zappy", description: "Energetic or lively", hindiDescription: "जोशीला", synonyms: ["lively", "vibrant"], sentence: "The show was zappy." },
+    { word: "Zestless", description: "Lacking enthusiasm", hindiDescription: "उत्साहहीन", synonyms: ["dull", "flat"], sentence: "He felt zestless today." },
+    { word: "Zooming", description: "Moving very fast", hindiDescription: "तेजी से जाना", synonyms: ["racing", "speeding"], sentence: "The plane was zooming." }
+]
+
+const wordsPerPage = 20;
+let currentPage = 0;
+let currentFilter = "all";
+
+const wordContainer = document.getElementById("wordContainer");
+const progressText = document.getElementById("progressText");
+const progressFill = document.getElementById("progressFill");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const letterFilter = document.getElementById("letterFilter");
+
+function getFilteredWords() {
+    if (currentFilter === "all") return vocabulary;
+    return vocabulary.filter(word => word.word.toUpperCase().startsWith(currentFilter));
+}
+
+function renderWords() {
+    const filteredWords = getFilteredWords();
+    wordContainer.innerHTML = "";
+    const start = currentPage * wordsPerPage;
+    const end = Math.min(start + wordsPerPage, filteredWords.length);
+
+    for (let i = start; i < end; i++) {
+        const word = filteredWords[i];
+        const wordItem = document.createElement("div");
+        wordItem.className = "word-item";
+        wordItem.innerHTML = `
+            <h2>${word.word}</h2>
+            <p><span class="label">Description:</span> ${word.description}</p>
+            <p><span class="label">Hindi:</span> ${word.hindiDescription}</p>
+            <p><span class="label">Synonyms:</span> ${word.synonyms.join(", ")}</p>
+            <p><span class="label">Example:</span> ${word.sentence}</p>
+        `;
+        wordContainer.appendChild(wordItem);
+    }
+
+    updateProgress(filteredWords);
+    updateNavigation(filteredWords);
+}
+
+function updateProgress(filteredWords) {
+    const viewedWords = Math.min((currentPage + 1) * wordsPerPage, filteredWords.length);
+    progressText.textContent = `${viewedWords}/${filteredWords.length} Words`;
+    const progressPercent = filteredWords.length > 0 ? (viewedWords / filteredWords.length) * 100 : 0;
+    progressFill.style.width = `${progressPercent}%`;
+}
+
+function updateNavigation(filteredWords) {
+    prevBtn.disabled = currentPage === 0;
+    nextBtn.disabled = (currentPage + 1) * wordsPerPage >= filteredWords.length;
+}
+
+prevBtn.addEventListener("click", () => {
+    if (currentPage > 0) {
+        currentPage--;
+        renderWords();
+    }
+});
+
+nextBtn.addEventListener("click", () => {
+    const filteredWords = getFilteredWords();
+    if ((currentPage + 1) * wordsPerPage < filteredWords.length) {
+        currentPage++;
+        renderWords();
+    }
+});
+
+letterFilter.addEventListener("change", (e) => {
+    currentFilter = e.target.value;
+    currentPage = 0; // Reset to first page on filter change
+    renderWords();
+});
+
+// Initial render
+renderWords();
+    </script>
+</body>
+</html>

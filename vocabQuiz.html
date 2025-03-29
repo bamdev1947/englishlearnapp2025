@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .quiz-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+        .correct { color: green; font-weight: bold; }
+        .incorrect { color: red; font-weight: bold; }
+        .button-container {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            color: #333;
+            font-size: 16px;
+        }
+        .next { background-color: #28a745;     color: white;}
+        .prev { background-color: #ffc107;     color: white; }
+        .reset { background-color: #dc3545;     color: white;}
+        button:hover {
+            opacity: 0.8;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: white;
+            color: #4b6cb7;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: #6a11cb;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Vocabulary Quiz</h2>
+        <div class="quiz-container" id="quizContainer"></div>
+        <div class="button-container">
+            <button class="prev" onclick="prevPage()">Previous</button>
+            <button class="next" onclick="nextPage()">Next</button>
+            <button class="reset" onclick="resetQuiz()">Reset</button>
+            
+        </div>
+        <a href="javascript:history.back()" class="back-button">Go Back</a>
+
+    </div>
+
+    <script>
+        let questions = [
+          { type: "word", question: "a__surd", options: ["absurd", "abserd", "absard"], answer: "absurd" },
+            { type: "word", question: "b__zarre", options: ["bizarre", "bizzarre", "bizare"], answer: "bizarre" },
+            { type: "word", question: "c__nundrum", options: ["conundrum", "connundrum", "conandrum"], answer: "conundrum" },
+            { type: "word", question: "d__ivative", options: ["derivative", "dirivative", "darrivative"], answer: "derivative" },
+            { type: "word", question: "e__hemeral", options: ["ephemeral", "ephimeral", "efemeral"], answer: "ephemeral" },
+            { type: "word", question: "f__tid", options: ["fetid", "fittid", "fatid"], answer: "fetid" },
+            { type: "word", question: "g__gantic", options: ["gigantic", "gagantic", "gijantic"], answer: "gigantic" },
+            { type: "word", question: "h__ogeneous", options: ["homogeneous", "homogeneus", "homogenius"], answer: "homogeneous" },
+            { type: "word", question: "i__transigent", options: ["intransigent", "intransigant", "intransgient"], answer: "intransigent" },
+            { type: "word", question: "j__xtapose", options: ["juxtapose", "juxapose", "juctapose"], answer: "juxtapose" },
+            { type: "word", question: "k__leidoscope", options: ["kaleidoscope", "kaliedoscope", "kalediscope"], answer: "kaleidoscope" },
+            { type: "word", question: "l__cubration", options: ["lucubration", "lucubration", "lucubrashion"], answer: "lucubration" },
+            { type: "word", question: "m__evolent", options: ["malevolent", "malevalent", "malevolant"], answer: "malevolent" },
+            { type: "word", question: "n__farious", options: ["nefarious", "nefairous", "neferious"], answer: "nefarious" },
+            { type: "word", question: "o__fuscate", options: ["obfuscate", "obfiscate", "obfusgate"], answer: "obfuscate" },
+            { type: "word", question: "p__rsimonious", options: ["parsimonious", "parcimonious", "parsimoneous"], answer: "parsimonious" },
+            { type: "word", question: "q__intessential", options: ["quintessential", "quintesential", "quintissential"], answer: "quintessential" },
+            { type: "word", question: "r__calcitrant", options: ["recalcitrant", "recalsitrant", "recalicitrant"], answer: "recalcitrant" },
+            { type: "word", question: "s__rruptitious", options: ["surreptitious", "surruptitious", "serreptitious"], answer: "surreptitious" },
+            { type: "word", question: "t__enchant", options: ["trenchant", "trenchaunt", "trenchent"], answer: "trenchant" },
+            { type: "word", question: "u__animous", options: ["unanimous", "unanimos", "unainimous"], answer: "unanimous" },
+            { type: "word", question: "v__ciferous", options: ["vociferous", "voceferous", "vocifirous"], answer: "vociferous" },
+            { type: "word", question: "w__stful", options: ["wistful", "whistful", "wistfull"], answer: "wistful" },
+            { type: "word", question: "x__nophobia", options: ["xenophobia", "zenophobia", "xynophobia"], answer: "xenophobia" },
+            { type: "word", question: "y__nker", options: ["yanker", "yonker", "younker"], answer: "younker" },
+            { type: "word", question: "z__phyr", options: ["zephyr", "zaphyr", "zephir"], answer: "zephyr" },
+        { "type": "word", "question": "a__berration", "options": ["aberration", "abberation", "aberation"], "answer": "aberration" },
+  { "type": "word", "question": "be__volent", "options": ["benevolent", "benovolent", "benevalent"], "answer": "benevolent" },
+  { "type": "word", "question": "ca__astrophe", "options": ["catastrophe", "catastraphe", "catastrope"], "answer": "catastrophe" },
+  { "type": "word", "question": "da__ant", "options": ["daunt", "daonte", "dauntte"], "answer": "daunt" },
+  { "type": "word", "question": "ec__ntric", "options": ["eccentric", "ecentric", "ekcentric"], "answer": "eccentric" },
+  { "type": "word", "question": "fa__ilitate", "options": ["facilitate", "fascilitate", "faciliate"], "answer": "facilitate" },
+  { "type": "word", "question": "gr__garious", "options": ["gregarious", "gregerious", "gregarius"], "answer": "gregarious" },
+  
+  { "type": "word", "question": "mi__omer", "options": ["misnomer", "misnamer", "misnomar"], "answer": "misnomer" },
+  { "type": "word", "question": "no__urnal", "options": ["nocturnal", "noctornal", "nocternul"], "answer": "nocturnal" },
+  { "type": "word", "question": "ob__quious", "options": ["obsequious", "obsequeous", "obsquious"], "answer": "obsequious" },
+  { "type": "word", "question": "pa__dox", "options": ["paradox", "paridox", "parodox"], "answer": "paradox" },
+  { "type": "word", "question": "qu__xotic", "options": ["quixotic", "quixotik", "quexotic"], "answer": "quixotic" },
+  { "type": "word", "question": "re__gnant", "options": ["repugnant", "repugnent", "repugnantt"], "answer": "repugnant" },
+  { "type": "word", "question": "su__erse", "options": ["subverse", "subverce", "subbers"], "answer": "subverse" },
+  { "type": "word", "question": "tr__scend", "options": ["transcend", "transeend", "transcendd"], "answer": "transcend" },
+  { "type": "word", "question": "ul__imate", "options": ["ultimate", "ultimite", "ultemat"], "answer": "ultimate" },
+  { "type": "word", "question": "vi__id", "options": ["vivid", "vividd", "vivide"], "answer": "vivid" },
+  { "type": "word", "question": "wr__th", "options": ["wraith", "wreith", "wrath"], "answer": "wraith" },
+{ "type": "word", "question": "ze__ith", "options": ["zenith", "zenetth", "zenithh"], "answer": "zenith" },
+  { "type": "word", "question": "ac__umen", "options": ["acumen", "accumen", "acumenn"], "answer": "acumen" },
+  { "type": "word", "question": "bo__teous", "options": ["bounteous", "bountius", "bounteus"], "answer": "bounteous" },
+  { "type": "word", "question": "co__esive", "options": ["cohesive", "cohesiv", "cohessive"], "answer": "cohesive" },
+  { "type": "word", "question": "de__ecrate", "options": ["desecrate", "desicrate", "dessecrate"], "answer": "desecrate" },
+  { "type": "word", "question": "em__ulate", "options": ["emulate", "imulatte", "emullate"], "answer": "emulate" },
+  { "type": "word", "question": "fa__idious", "options": ["fastidious", "fastideous", "fastidous"], "answer": "fastidious" },
+  { "type": "word", "question": "ge__ial", "options": ["genial", "geniall", "genyall"], "answer": "genial" },
+  { "type": "word", "question": "he__sy", "options": ["heresy", "herresy", "heresey"], "answer": "heresy" },
+  { "type": "word", "question": "in__ence", "options": ["incense", "inscense", "incens"], "answer": "incense" },
+  { "type": "word", "question": "ju__ose", "options": ["jucose", "jokose", "juccose"], "answer": "jucose" },
+ { "type": "word", "question": "lu__id", "options": ["lucid", "lusid", "luced"], "answer": "lucid" },
+  { "type": "word", "question": "ma__ificent", "options": ["magnificent", "magnifecent", "magnifisant"], "answer": "magnificent" },
+  { "type": "word", "question": "ne__otic", "options": ["neurotic", "neuritic", "nerotic"], "answer": "neurotic" },
+  { "type": "word", "question": "op__ulent", "options": ["opulent", "oppulent", "opullent"], "answer": "opulent" },
+  { "type": "word", "question": "pe__urious", "options": ["penurious", "penourius", "penurios"], "answer": "penurious" },
+  { "type": "word", "question": "qu__tient", "options": ["quotient", "quotent", "quoshient"], "answer": "quotient" },
+  { "type": "word", "question": "ra__enous", "options": ["ravenous", "ravanous", "ravenus"], "answer": "ravenous" },
+  { "type": "word", "question": "su__ervene", "options": ["supervene", "supervane", "supurvene"], "answer": "supervene" },
+  { "type": "word", "question": "te__uous", "options": ["tenuous", "tenous", "tenuios"], "answer": "tenuous" },
+  { "type": "word", "question": "ub__iquitous", "options": ["ubiquitous", "ubiquitus", "ubiqitous"], "answer": "ubiquitous" },
+ { "type": "word", "question": "au__ent", "options": ["augment", "augmant", "augmend"], "answer": "augment" },
+  { "type": "word", "question": "be__se", "options": ["berse", "bese", "berce"], "answer": "berse" },
+  { "type": "word", "question": "co__erce", "options": ["coerce", "coers", "coarce"], "answer": "coerce" },
+  { "type": "word", "question": "de__ame", "options": ["defame", "dephame", "defan"], "answer": "defame" },
+  { "type": "word", "question": "el__quent", "options": ["eloquent", "eloquint", "eloqent"], "answer": "eloquent" },
+  { "type": "word", "question": "fa__less", "options": ["faultless", "fautless", "faltless"], "answer": "faultless" },
+  { "type": "word", "question": "ga__ulous", "options": ["garrulous", "garrulos", "garrulouse"], "answer": "garrulous" },
+  { "type": "word", "question": "he__tical", "options": ["heretical", "herritical", "hertical"], "answer": "heretical" },
+  { "type": "word", "question": "in__icate", "options": ["intricate", "intriccate", "intricaet"], "answer": "intricate" },
+  { "type": "word", "question": "ju__ture", "options": ["juncture", "juncter", "juncturre"], "answer": "juncture" },
+
+           { "type": "truefalse", "question": "The word 'accommodate' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'recieve' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'perseverance' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'definately' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'pronunciation' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'tommorow' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'privilege' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'occured' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'recommend' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'seperate' is spelled correctly.", "answer": false },
+  
+  { "type": "truefalse", "question": "The word 'indispensable' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'treshold' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'exaggerate' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'concious' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'liaison' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'embarass' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'surprise' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'arguement' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'maintenance' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'judgement' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'mischievous' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'miniscule' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'occasionally' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'bizzare' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'possession' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'supercede' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'threshold' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'tommorrow' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'withhold' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'existance' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'fortuitous' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'harrassment' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'imminent' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'irresistable' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'knowledgeable' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'liason' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'maneuver' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'neccessary' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'outrageous' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'pasttime' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'questionnaire' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'resistence' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'sacrilegious' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'threshold' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'truely' is spelled correctly.", "answer": false },
+{ "type": "truefalse", "question": "The word 'memento' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'neccessary' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'parallel' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'pharaoh' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'playwright' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'posession' is spelled correctly.", "answer": false },
+  { "type": "truefalse", "question": "The word 'questionnaire' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'referred' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'sacrilegious' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'schedule' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'tomorrow' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'twelfth' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'unforeseen' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'weird' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'withdrawal' is spelled correctly.", "answer": true },
+  { "type": "truefalse", "question": "The word 'writing' is spelled correctly.", "answer": true }
+
+
+        ];
+
+  
+
+        let currentPage = 0;
+const questionsPerPage = 5;
+
+function displayQuestions() {
+    let quizContainer = document.getElementById("quizContainer");
+    quizContainer.innerHTML = "";
+
+    let start = currentPage * questionsPerPage;
+    let end = start + questionsPerPage;
+    let questionsToShow = questions.slice(start, end);
+
+    questionsToShow.forEach((q, index) => {
+        let div = document.createElement("div");
+        div.classList.add("question");
+        div.innerHTML = `<h4>${q.question}</h4>`;
+
+        if (q.type === "word") {
+            q.options.forEach(option => {
+                div.innerHTML += `<button onclick="checkAnswer(${start + index}, '${option}', this)">${option}</button>`;
+            });
+        } else {
+            div.innerHTML += `<button onclick="checkAnswer(${start + index}, true, this)">True</button>
+                              <button onclick="checkAnswer(${start + index}, false, this)">False</button>`;
+        }
+        quizContainer.appendChild(div);
+    });
+}
+
+function checkAnswer(index, selected, button) {
+    let correct = questions[index].answer;
+    if (selected === correct) {
+        button.classList.add("correct");
+    } else {
+        button.classList.add("incorrect");
+    }
+}
+
+function nextPage() {
+    if ((currentPage + 1) * questionsPerPage < questions.length) {
+        currentPage++;
+        displayQuestions();
+    }
+}
+
+function prevPage() {
+    if (currentPage > 0) {
+        currentPage--;
+        displayQuestions();
+    }
+}
+
+function resetQuiz() {
+    currentPage = 0;
+    displayQuestions();
+}
+
+// Initialize the quiz with the first 5 questions
+displayQuestions();
+
+    </script>
+</body>
+</html>
