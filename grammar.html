@@ -328,7 +328,7 @@ button:disabled {
             </div>
             <div id="performance" class="performance"></div>
         </div>
-        <a href="javascript:history.back()" class="back-button">Go Back</a>
+        <a href="index.html" class="back-button">Home</a>
 
     </div>
     <script>
@@ -337,19 +337,50 @@ button:disabled {
         // Grammar Topics Data (Nouns and Pronouns for now, extensible for others)
 const grammarTopics = {
     "Nouns": [
-        { question: "What is a noun?", options: ["A naming word", "An action word", "A describing word", "A connecting word"], correct: "A naming word", explanation: "A noun is a word that names a person, place, thing, or idea, making it a naming word." },
-        { question: "Which of these is a proper noun?", options: ["dog", "London", "happiness", "run"], correct: "London", explanation: "'London' is a proper noun because it names a specific place." },
-        { question: "Which noun is an abstract noun?", options: ["table", "love", "car", "apple"], correct: "love", explanation: "'Love' is an abstract noun, representing a feeling that cannot be touched." },
-        // Add more Nouns questions here (total 150 in original)
-        // For brevity, only 3 are shown; replace with full 150 from previous Nouns app if needed
-    ],
-    "Pronouns": [
-        { question: "What is a pronoun?", options: ["A naming word", "A word replacing a noun", "An action word", "A describing word"], correct: "A word replacing a noun", explanation: "A pronoun replaces a noun to avoid repetition, e.g., 'he' for 'John'." },
-        { question: "Which is a personal pronoun?", options: ["I", "run", "happy", "blue"], correct: "I", explanation: "'I' is a personal pronoun referring to the speaker." },
-        { question: "Identify the pronoun in: 'She runs fast.'", options: ["She", "runs", "fast", "none"], correct: "She", explanation: "'She' is a pronoun replacing a female noun." },
-        // Add more Pronouns questions here (total 150 in original)
-        // For brevity, only 3 are shown; replace with full 150 from previous Pronouns app if needed
-    ],
+    { "question": "What is a noun?", "options": ["A naming word", "An action word", "A describing word", "A connecting word"], "correct": "A naming word", "explanation": "A noun is a word that names a person, place, thing, or idea, making it a naming word." },
+    { "question": "Which of these is a proper noun?", "options": ["dog", "London", "happiness", "run"], "correct": "London", "explanation": "'London' is a proper noun because it names a specific place." },
+    { "question": "Which noun is an abstract noun?", "options": ["table", "love", "car", "apple"], "correct": "love", "explanation": "'Love' is an abstract noun, representing a feeling that cannot be touched." },
+    
+    { "question": "Which of the following is a collective noun?", "options": ["team", "book", "house", "pencil"], "correct": "team", "explanation": "'Team' is a collective noun as it refers to a group of people working together." },
+    { "question": "Which sentence contains a common noun?", "options": ["Paris is beautiful", "She loves chocolate", "Mount Everest is tall", "Mr. Smith is my teacher"], "correct": "She loves chocolate", "explanation": "'Chocolate' is a common noun because it is a general name for a type of food." },
+    { "question": "Which of these is a material noun?", "options": ["water", "joy", "teacher", "jump"], "correct": "water", "explanation": "'Water' is a material noun as it refers to a physical substance." },
+    
+    { "question": "Identify the countable noun in the list:", "options": ["rice", "happiness", "books", "water"], "correct": "books", "explanation": "'Books' are countable nouns because they can be counted as one book, two books, etc." },
+    { "question": "Which noun is uncountable?", "options": ["sugar", "pen", "table", "cat"], "correct": "sugar", "explanation": "'Sugar' is an uncountable noun because it cannot be counted individually." },
+    { "question": "Choose the plural form of 'child':", "options": ["childs", "childes", "children", "childrens"], "correct": "children", "explanation": "The correct plural of 'child' is 'children', which is an irregular plural form." },
+    
+    { "question": "Which of these nouns is a proper noun?", "options": ["city", "New York", "car", "happiness"], "correct": "New York", "explanation": "'New York' is a proper noun because it refers to a specific place." },
+    { "question": "Which of these words is NOT a noun?", "options": ["computer", "singing", "dog", "fast"], "correct": "fast", "explanation": "'Fast' is not a noun; it is an adjective or an adverb depending on its use." },
+    { "question": "Which noun represents an idea?", "options": ["table", "happiness", "dog", "apple"], "correct": "happiness", "explanation": "'Happiness' is an abstract noun as it represents an idea or feeling." },
+    
+    { "question": "Which of these is an example of a concrete noun?", "options": ["anger", "freedom", "pencil", "happiness"], "correct": "pencil", "explanation": "A 'pencil' is a concrete noun because it can be physically touched and seen." },
+    { "question": "What type of noun is 'flock'?", "options": ["Proper noun", "Collective noun", "Abstract noun", "Material noun"], "correct": "Collective noun", "explanation": "'Flock' is a collective noun as it refers to a group of birds or sheep." },
+    { "question": "Which noun is a common noun?", "options": ["Michael", "Paris", "cat", "Amazon"], "correct": "cat", "explanation": "'Cat' is a common noun as it is a general term for a type of animal." }
+  ],
+  "Pronouns": [
+    { "question": "What is a pronoun?", "options": ["A word that replaces a noun", "A describing word", "An action word", "A naming word"], "correct": "A word that replaces a noun", "explanation": "A pronoun is a word used in place of a noun to avoid repetition." },
+    { "question": "Which of these is a personal pronoun?", "options": ["he", "who", "this", "mine"], "correct": "he", "explanation": "'He' is a personal pronoun used to refer to a male person." },
+    { "question": "Which of these is a possessive pronoun?", "options": ["me", "mine", "they", "who"], "correct": "mine", "explanation": "'Mine' is a possessive pronoun that shows ownership." },
+    
+    { "question": "Which of the following is a reflexive pronoun?", "options": ["him", "myself", "ours", "who"], "correct": "myself", "explanation": "'Myself' is a reflexive pronoun, used when the subject and object of a sentence are the same person." },
+    { "question": "Identify the demonstrative pronoun:", "options": ["this", "he", "her", "ours"], "correct": "this", "explanation": "'This' is a demonstrative pronoun, used to point to a specific object or thing." },
+    { "question": "Choose the correct indefinite pronoun:", "options": ["everyone", "she", "yours", "which"], "correct": "everyone", "explanation": "'Everyone' is an indefinite pronoun because it refers to an unspecified group of people." },
+    
+    { "question": "Which sentence contains a relative pronoun?", "options": ["This is the book that I read.", "She loves to dance.", "They will arrive soon.", "We are happy today."], "correct": "This is the book that I read.", "explanation": "'That' is a relative pronoun, used to introduce a relative clause." },
+    { "question": "Which of these is an interrogative pronoun?", "options": ["which", "they", "ours", "his"], "correct": "which", "explanation": "'Which' is an interrogative pronoun used to ask a question." },
+    { "question": "Choose the correct reciprocal pronoun:", "options": ["each other", "hers", "it", "them"], "correct": "each other", "explanation": "'Each other' is a reciprocal pronoun used to show a mutual action between two or more people." },
+
+    { "question": "Which of the following is a distributive pronoun?", "options": ["each", "who", "them", "mine"], "correct": "each", "explanation": "'Each' is a distributive pronoun, referring to individual members of a group separately." },
+    { "question": "Which of these is a reflexive pronoun?", "options": ["myself", "his", "her", "who"], "correct": "myself", "explanation": "'Myself' is a reflexive pronoun as it reflects back to the subject." },
+    { "question": "Identify the correct indefinite pronoun:", "options": ["anybody", "him", "she", "this"], "correct": "anybody", "explanation": "'Anybody' is an indefinite pronoun used to refer to an unknown or unspecified person." },
+    { "question": "Which pronoun can be both interrogative and relative?", "options": ["who", "he", "her", "mine"], "correct": "who", "explanation": "'Who' can be used both as an interrogative pronoun (Who are you?) and a relative pronoun (The boy who won the race)." },
+    { "question": "What is the possessive form of 'they'?", "options": ["theirs", "them", "their", "they"], "correct": "theirs", "explanation": "'Theirs' is a possessive pronoun indicating ownership." },
+    { "question": "Which sentence correctly uses an indefinite pronoun?", "options": ["Someone left their book on the table.", "He runs fast.", "She is a good teacher.", "This is a great idea."], "correct": "Someone left their book on the table.", "explanation": "'Someone' is an indefinite pronoun as it refers to an unspecified person." },
+    { "question": "What type of pronoun is 'yours'?", "options": ["Possessive", "Reflexive", "Indefinite", "Personal"], "correct": "Possessive", "explanation": "'Yours' is a possessive pronoun as it shows ownership." },
+    { "question": "Choose the correct subject pronoun:", "options": ["I", "me", "mine", "my"], "correct": "I", "explanation": "'I' is a subject pronoun as it is used as the subject of a sentence." },
+    { "question": "Which is a reciprocal pronoun?", "options": ["each other", "him", "she", "this"], "correct": "each other", "explanation": "'Each other' is a reciprocal pronoun used to indicate mutual action or relationship." },
+    { "question": "Identify the object pronoun:", "options": ["him", "he", "his", "who"], "correct": "him", "explanation": "'Him' is an object pronoun used as the object of a verb or preposition." }
+  ],
 
 "Verbs": [
     { question: "What is a verb?", options: ["A naming word", "An action or state word", "A describing word", "A connecting word"], correct: "An action or state word", explanation: "A verb shows what someone does (e.g., 'run') or a state of being (e.g., 'is'). It’s the action or existence part of a sentence!" },

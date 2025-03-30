@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idioms & Phrases</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 1% 20%;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination button {
+            margin: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .pagination button:hover {
+            background: linear-gradient(135deg, #5563c1, #5b3c82);
+        }
+        #searchBar {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .highlight {
+            background-color: yellow;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: white;
+            color: #4b6cb7;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            background: #6a11cb;
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h2>Idioms & Phrases</h2>
+    <input type="text" id="searchBar" onkeyup="searchIdioms()" placeholder="Search idioms...">
+    <table id="idiomsTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable()">Idiom</th>
+                <th>Meaning</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="pagination">
+        <button onclick="prevPage()">Previous</button>
+        <span id="pageInfo"></span>
+        <button onclick="nextPage()">Next</button>
+        <a href="index.html" class="back-button">Home</a>
+
+    </div>
+    <script>
+        let idioms = [
+            { idiom: "Rank and File", meaning: "Ordinary People" },
+            { idiom: "By fits and starts", meaning: "In short periods, not regularly" },
+            { idiom: "A wee bit", meaning: "A little" },
+            { idiom: "Out of the wood", meaning: "Free from difficulties and dangers" },
+            { idiom: "Under his thumb", meaning: "Under his control" },
+            { idiom: "At one’s wits end", meaning: "In a state where one does not know what to do" },
+            { idiom: "Between the devil and the deep sea", meaning: "Between two dangers" },
+            { idiom: "Burn the midnight oil", meaning: "Work or study hard" },
+            { idiom: "Call a spade a spade", meaning: "Speak frankly and directly" },
+            { idiom: "Come off with flying colors", meaning: "Be highly successful" },
+            { idiom: "Hoping against hope", meaning: "Without hope" },
+            { idiom: "Hit the nail on the head", meaning: "Do or say the exact thing" },
+            { idiom: "An axe to grind", meaning: "A personal interest in the matter" },
+            { idiom: "To get rid of", meaning: "Dispose of" },
+            { idiom: "At daggers drawn", meaning: "Bitterly hostile" },
+            { "idiom": "A blessing in disguise", "meaning": "A good thing that seemed bad at first" },
+  { "idiom": "Beat around the bush", "meaning": "Avoid saying what you mean, usually because it is uncomfortable" },
+  { "idiom": "Bite the bullet", "meaning": "To endure a painful or difficult situation" },
+  { "idiom": "Break the ice", "meaning": "To initiate conversation in a social setting" },
+  { "idiom": "Burn the midnight oil", "meaning": "Work late into the night" },
+  { "idiom": "Call it a day", "meaning": "To stop working on something" },
+  { "idiom": "Cut to the chase", "meaning": "Get to the point" },
+  { "idiom": "Hit the sack", "meaning": "Go to bed" },
+  { "idiom": "Jump on the bandwagon", "meaning": "Join a popular activity or trend" },
+  { "idiom": "Kill two birds with one stone", "meaning": "Solve two problems at once" },
+  { "idiom": "Let the cat out of the bag", "meaning": "Reveal a secret unintentionally" },
+  { "idiom": "Once in a blue moon", "meaning": "Very rarely" },
+  { "idiom": "Piece of cake", "meaning": "Something very easy" },
+  { "idiom": "Pull someone's leg", "meaning": "To joke or trick someone playfully" },
+  { "idiom": "Put all your eggs in one basket", "meaning": "Risk everything on a single plan" },
+  { "idiom": "Read between the lines", "meaning": "Understand the hidden meaning" },
+  { "idiom": "Spill the beans", "meaning": "Reveal a secret" },
+  { "idiom": "The ball is in your court", "meaning": "It is your decision or responsibility to do something" },
+  { "idiom": "Through thick and thin", "meaning": "In good times and bad" },
+  { "idiom": "Under the weather", "meaning": "Feeling sick or unwell" },
+  { "idiom": "Up in the air", "meaning": "Uncertain or undecided" },
+  { "idiom": "Hit the nail on the head", "meaning": "Describe exactly what is causing a situation or problem" },
+  { "idiom": "By the skin of one's teeth", "meaning": "Barely managing to do something" },
+  { "idiom": "Burning bridges", "meaning": "Destroying relationships or opportunities beyond repair" },
+  { "idiom": "Cost an arm and a leg", "meaning": "Very expensive" },
+  { "idiom": "Go the extra mile", "meaning": "Do more than what is expected" },
+  { "idiom": "Break a leg", "meaning": "Good luck" },
+  { "idiom": "Hitting rock bottom", "meaning": "Reaching the lowest possible point" },
+  { "idiom": "On the same page", "meaning": "Agreeing or having the same understanding" },
+  { "idiom": "Throw in the towel", "meaning": "Give up or admit defeat" },
+  { "idiom": "A dime a dozen", "meaning": "Something very common" },
+  { "idiom": "Actions speak louder than words", "meaning": "What you do is more important than what you say" },
+  { "idiom": "All ears", "meaning": "Listening attentively" },
+  { "idiom": "An arm and a leg", "meaning": "Very expensive" },
+  { "idiom": "Back to square one", "meaning": "Start over from the beginning" },
+  { "idiom": "Barking up the wrong tree", "meaning": "Accusing the wrong person or pursuing the wrong course" },
+  { "idiom": "Bite off more than you can chew", "meaning": "Take on more than you can handle" },
+  { "idiom": "Burning the candle at both ends", "meaning": "Overworking oneself" },
+  { "idiom": "By hook or by crook", "meaning": "By any means necessary" },
+  { "idiom": "Caught between a rock and a hard place", "meaning": "Stuck between two difficult options" },
+  { "idiom": "Cry over spilled milk", "meaning": "Worry about something that cannot be changed" },
+  { "idiom": "Curiosity killed the cat", "meaning": "Being too curious can lead to trouble" },
+  { "idiom": "Devil's advocate", "meaning": "Arguing against something for the sake of discussion" },
+  { "idiom": "Don't put the cart before the horse", "meaning": "Do things in the correct order" },
+  { "idiom": "Easy does it", "meaning": "Proceed carefully and slowly" },
+  { "idiom": "Every cloud has a silver lining", "meaning": "Every difficult situation has some good aspect" },
+  { "idiom": "Fit as a fiddle", "meaning": "In excellent health" },
+  { "idiom": "Give someone the cold shoulder", "meaning": "Ignore or be unfriendly to someone" },
+  { "idiom": "Go with the flow", "meaning": "Accept things as they come" },
+  { "idiom": "Hit the ground running", "meaning": "Start something energetically and successfully" },
+  { "idiom": "In the same boat", "meaning": "In the same difficult situation" },
+  { "idiom": "It takes two to tango", "meaning": "Both parties are responsible for a situation" },
+  { "idiom": "Keep your chin up", "meaning": "Stay positive in difficult times" },
+  { "idiom": "Let sleeping dogs lie", "meaning": "Avoid interfering in a situation that could cause trouble" },
+  { "idiom": "Miss the boat", "meaning": "Miss an opportunity" },
+  { "idiom": "No pain, no gain", "meaning": "Hard work is necessary for success" },
+  { "idiom": "Play devil's advocate", "meaning": "Argue the opposite side for discussion's sake" },
+  { "idiom": "Pull yourself together", "meaning": "Calm down and regain composure" },
+  { "idiom": "Rome wasn't built in a day", "meaning": "Important work takes time" },
+  { "idiom": "The last straw", "meaning": "The final problem that makes a situation unbearable" }
+        ];
+
+        let currentPage = 1;
+        const recordsPerPage = 10;
+
+        function displayTable(filteredIdioms = idioms) {
+            const tbody = document.querySelector("#idiomsTable tbody");
+            tbody.innerHTML = "";
+            
+            let start = (currentPage - 1) * recordsPerPage;
+            let end = start + recordsPerPage;
+            let paginatedItems = filteredIdioms.slice(start, end);
+            
+            paginatedItems.forEach(item => {
+                let row = `<tr><td>${item.idiom}</td><td>${item.meaning}</td></tr>`;
+                tbody.innerHTML += row;
+            });
+            
+            document.getElementById("pageInfo").innerText = `Page ${currentPage} of ${Math.ceil(filteredIdioms.length / recordsPerPage)}`;
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayTable();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < Math.ceil(idioms.length / recordsPerPage)) {
+                currentPage++;
+                displayTable();
+            }
+        }
+
+        function sortTable() {
+            idioms.sort((a, b) => a.idiom.localeCompare(b.idiom));
+            displayTable();
+        }
+
+        function searchIdioms() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            let filteredIdioms = idioms.filter(item => item.idiom.toLowerCase().includes(input));
+            displayTable(filteredIdioms);
+        }
+
+        displayTable();
+    </script>
+</body>
+</html>
