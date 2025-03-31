@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odd One Out</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center h-screen bg-yellow-100">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center border-4 border-yellow-400">
+        <h2 class="text-2xl font-bold mb-4 text-yellow-600">🎉 Find the Odd One Out! 🎈</h2>
+        <div id="words" class="grid grid-cols-2 gap-4 mb-4">
+            <!-- Words will be inserted here dynamically -->
+        </div>
+        <p id="message" class="text-lg font-semibold text-gray-700"></p>
+        <div class="flex justify-between mt-4">
+            <button onclick="prevGame()" class="px-4 py-2 bg-gray-400 text-white rounded-lg disabled:opacity-50" id="prevBtn" disabled>⬅️ Prev</button>
+            <button onclick="nextGame()" class="px-4 py-2 bg-blue-500 text-white rounded-lg" id="nextBtn">Next ➡️</button>
+            <button class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">        <a href="index.html" class="back-button">Home</a>
+
+        </div>
+    </div>
+
+    <script>
+        const wordSets = [
+  { "words": ["🍎 Apple", "🍌 Banana", "🥕 Carrot", "🍓 Strawberry"], "odd": "🥕 Carrot" },
+  { "words": ["🚗 Car", "🚕 Taxi", "✈️ Airplane", "🚙 SUV"], "odd": "✈️ Airplane" },
+  { "words": ["⚽️ Soccer", "🏀 Basketball", "🏈 Football", "🎾 Tennis"], "odd": "🎾 Tennis" },
+  { "words": ["🍔 Burger", "🍕 Pizza", "🌮 Taco", "🥩 Steak"], "odd": "🥩 Steak" },
+  { "words": ["🍎 Apple", "🍇 Grapes", "🍉 Watermelon", "🍖 Meat"], "odd": "🍖 Meat" },
+  { "words": ["🦁 Lion", "🐱 Cat", "🐵 Monkey", "🐊 Crocodile"], "odd": "🐊 Crocodile" },
+  { "words": ["🎸 Guitar", "🎹 Piano", "🎻 Violin", "🎷 Saxophone"], "odd": "🎷 Saxophone" },
+  { "words": ["🏠 House", "🏢 Building", "🏣 Office", "🛶 Boat"], "odd": "🛶 Boat" },
+  { "words": ["🥇 Gold", "🥈 Silver", "🥉 Bronze", "🏅 Medal"], "odd": "🏅 Medal" },
+  { "words": ["🍞 Bread", "🍖 Meat", "🥖 Baguette", "🍕 Pizza"], "odd": "🍖 Meat" },
+  { "words": ["👗 Dress", "👚 Shirt", "👕 T-shirt", "👟 Shoes"], "odd": "👟 Shoes" },
+  { "words": ["🎥 Movie", "🎬 Director", "📽️ Camera", "🎙️ Microphone"], "odd": "🎙️ Microphone" },
+  { "words": ["🌳 Tree", "🌵 Cactus", "🌸 Flower", "🍄 Mushroom"], "odd": "🍄 Mushroom" },
+  { "words": ["🍉 Watermelon", "🍊 Orange", "🍋 Lemon", "🍄 Mushroom"], "odd": "🍄 Mushroom" },
+  { "words": ["🍽️ Plate", "🍷 Wine Glass", "🍴 Fork", "🛏️ Bed"], "odd": "🛏️ Bed" },
+  { "words": ["📱 Phone", "💻 Laptop", "📺 TV", "🖋️ Pen"], "odd": "🖋️ Pen" },
+  { "words": ["🐧 Penguin", "🐦 Bird", "🐴 Horse", "🦄 Unicorn"], "odd": "🐴 Horse" },
+  { "words": ["🚲 Bicycle", "🏎️ Car", "🛴 Scooter", "🛵 Motorcycle"], "odd": "🏎️ Car" },
+  { "words": ["📚 Book", "📖 Novel", "📜 Scroll", "📅 Calendar"], "odd": "📅 Calendar" },
+  { "words": ["🐶 Dog", "🐱 Cat", "🐰 Rabbit", "🐔 Chicken"], "odd": "🐔 Chicken" },
+  { "words": ["🚶‍♂️ Walking", "🏃‍♀️ Running", "🚴‍♂️ Cycling", "🛹 Skateboarding"], "odd": "🛹 Skateboarding" },
+  { "words": ["🎤 Microphone", "🎧 Headphones", "🎶 Music", "🎹 Piano"], "odd": "🎶 Music" },
+  { "words": ["🗺️ Map", "🗿 Statue", "🏞️ Landscape", "🌍 Earth"], "odd": "🗿 Statue" },
+  { "words": ["🌐 Internet", "💻 Computer", "📱 Smartphone", "🎮 Video Game"], "odd": "🎮 Video Game" },
+  { "words": ["🍽️ Plate", "🍴 Fork", "🥄 Spoon", "🛋️ Couch"], "odd": "🛋️ Couch" },
+  { "words": ["🦋 Butterfly", "🐞 Ladybug", "🐝 Bee", "🐒 Monkey"], "odd": "🐒 Monkey" },
+  { "words": ["🦓 Zebra", "🐆 Leopard", "🐅 Tiger", "🦔 Hedgehog"], "odd": "🦔 Hedgehog" },
+  { "words": ["🛋️ Couch", "🪑 Chair", "🛏️ Bed", "🧳 Suitcase"], "odd": "🧳 Suitcase" },
+  { "words": ["🌄 Mountain", "🌊 Ocean", "🏜️ Desert", "🏙️ City"], "odd": "🏙️ City" },
+  { "words": ["🍔 Burger", "🍗 Chicken", "🍝 Pasta", "🍕 Pizza"], "odd": "🍝 Pasta" },
+  { "words": ["🎩 Top Hat", "👒 Hat", "👑 Crown", "👚 Shirt"], "odd": "👚 Shirt" },
+  { "words": ["🎢 Roller Coaster", "🎠 Carousel", "🎡 Ferris Wheel", "🎻 Violin"], "odd": "🎻 Violin" },
+  { "words": ["🏝️ Island", "🏖️ Beach", "🏜️ Desert", "🌴 Palm Tree"], "odd": "🏜️ Desert" },
+  { "words": ["🍌 Banana", "🍇 Grapes", "🍏 Apple", "🍖 Meat"], "odd": "🍖 Meat" },
+  { "words": ["🍓 Strawberry", "🍇 Grapes", "🍉 Watermelon", "🌶️ Chili"], "odd": "🌶️ Chili" },
+  { "words": ["🐶 Dog", "🐱 Cat", "🐰 Rabbit", "🐍 Snake"], "odd": "🐍 Snake" },
+  { "words": ["🖼️ Painting", "🧵 Thread", "🖋️ Pen", "📸 Camera"], "odd": "🧵 Thread" },
+  { "words": ["🐠 Fish", "🐋 Whale", "🦈 Shark", "🐢 Turtle"], "odd": "🐢 Turtle" },
+  { "words": ["🎧 Headphones", "🎤 Microphone", "🎶 Music", "🎬 Director"], "odd": "🎬 Director" },
+  { "words": ["🎩 Top Hat", "👒 Hat", "🧢 Cap", "🦺 Vest"], "odd": "🦺 Vest" },
+  { "words": ["🦜 Parrot", "🐦 Bird", "🐤 Chicken", "🐍 Snake"], "odd": "🐍 Snake" },
+  { "words": ["🎮 Video Game", "🖥️ Computer", "🎧 Headphones", "📞 Telephone"], "odd": "📞 Telephone" },
+  { "words": ["🚕 Taxi", "🚗 Car", "🛳️ Boat", "🚙 SUV"], "odd": "🛳️ Boat" },
+  { "words": ["🖼️ Painting", "🎨 Paint", "📷 Camera", "🎶 Music"], "odd": "🎶 Music" },
+  { "words": ["📞 Telephone", "📱 Mobile", "💻 Laptop", "🎧 Headphones"], "odd": "🎧 Headphones" },
+  { "words": ["🦒 Giraffe", "🐅 Tiger", "🐒 Monkey", "🐘 Elephant"], "odd": "🐒 Monkey" },
+  { "words": ["🍇 Grapes", "🍓 Strawberry", "🍉 Watermelon", "🥑 Avocado"], "odd": "🥑 Avocado" }
+]
+
+        
+        let currentIndex = 0;
+        
+        function loadGame(index) {
+            const gameArea = document.getElementById("words");
+            const message = document.getElementById("message");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            
+            message.textContent = "";
+            gameArea.innerHTML = "";
+            
+            const set = wordSets[index];
+            set.words.forEach(word => {
+                const button = document.createElement("button");
+                button.textContent = word;
+                button.classList = "px-4 py-2 bg-yellow-200 rounded-lg hover:bg-yellow-300 text-lg font-semibold";
+                button.onclick = () => checkAnswer(word, set.odd);
+                gameArea.appendChild(button);
+            });
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === wordSets.length - 1;
+        }
+        
+        function checkAnswer(selected, correct) {
+            const message = document.getElementById("message");
+            if (selected === correct) {
+                message.textContent = "🎉✅ Correct! Great Job!";
+                message.classList.add("text-green-600");
+            } else {
+                message.textContent = "😢❌ Try Again!";
+                message.classList.add("text-red-600");
+            }
+        }
+        
+        function nextGame() {
+            if (currentIndex < wordSets.length - 1) {
+                currentIndex++;
+                loadGame(currentIndex);
+            }
+        }
+        
+        function prevGame() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadGame(currentIndex);
+            }
+        }
+        
+        loadGame(currentIndex);
+    </script>
+</body>
+</html>

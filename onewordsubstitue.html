@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Word Substitution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-600 relative">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-2xl text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">One Word Substitution</h1>
+        <table class="w-full border-collapse border border-gray-300 shadow-lg">
+            <thead>
+                <tr class="bg-gradient-to-r from-purple-400 to-blue-400 text-white">
+                    <th class="border border-gray-300 p-3">Phrase</th>
+                    <th class="border border-gray-300 p-3">One Word</th>
+                </tr>
+            </thead>
+            <tbody id="table-body" class="text-gray-700 bg-gray-100">
+            </tbody>
+        </table>
+        <div class="flex justify-between mt-6">
+            <button onclick="prevPage()" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition">Previous</button>
+            <button onclick="nextPage()" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition">Next</button>
+            <button class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">        <a href="index.html" class="back-button">Home</a>
+        </div>
+    </div>
+    <footer class="absolute bottom-4 text-white text-sm">© 2025 JeevaxLearn. All rights reserved.</footer>
+    
+    <script>
+        const data = [
+            ["A person who writes a book", "Author"],
+            ["A person who speaks many languages", "Polyglot"],
+            ["A person who travels on foot", "Pedestrian"],
+            ["A person who loves humanity", "Philanthropist"],
+            ["A person who studies the stars", "Astronomer"],
+            ["A person who donates money", "Benefactor"],
+            ["A person who is new to a subject", "Novice"],
+            ["A person who loves books", "Bibliophile"],
+            ["A person who cannot read or write", "Illiterate"],
+            ["A person who believes in fate", "Fatalist"],
+            ["A person who is against war", "Pacifist"],
+            ["A person who studies insects", "Entomologist"],
+            ["A person who is a social outcast", "Pariah"],
+            ["A person who loves peace", "Dove"],
+            ["A person who writes dictionaries", "Lexicographer"],
+            ["A person who collects coins", "Numismatist"],
+            ["A person who collects stamps", "Philatelist"],
+            ["A person who loves food", "Gourmet"],
+            ["A person who loves art", "Aesthete"],
+            ["A person who works for free", "Volunteer"],
+            ["A person who is good at judging art", "Connoisseur"],
+            ["A person who doubts everything", "Skeptic"],
+            ["A person who eats too much", "Glutton"],
+            ["A person who is bad at spending money", "Miser"],
+            ["A person who is a leader in a field", "Pioneer"],
+            ["A person who studies fossils", "Paleontologist"],
+            ["A person who rules with absolute power", "Dictator"],
+            ["A person who avoids society", "Recluse"],
+            ["A person who is crazy about something", "Fanatic"],
+            ["A person who is always hopeful", "Optimist"],
+            ["A person who always sees the worst", "Pessimist"],
+            ["A person who knows everything", "Omniscient"],
+            ["A person who loves himself too much", "Egotist"],
+            ["A person who secretly collects information", "Spy"],
+            ["A person who cannot make mistakes", "Infallible"],
+            ["A person who helps others", "Altruist"],
+            ["A person who believes in ghosts", "Spiritualist"],
+            ["A person who is deeply religious", "Devout"],
+            ["A person who always doubts", "Cynic"],
+            ["A person who studies the origin of words", "Etymologist"]
+            ["A person who studies plants", "Botanist"],
+  ["A person who studies rocks", "Geologist"],
+  ["A person who studies animals", "Zoologist"],
+  ["A person who studies the mind", "Psychologist"],
+  ["A person who studies the past", "Historian"],
+  ["A person who studies human societies", "Anthropologist"],
+  ["A person who studies human remains", "Archaeologist"],
+  ["A person who studies weather", "Meteorologist"],
+  ["A person who studies oceans", "Oceanographer"],
+  ["A person who studies birds", "Ornithologist"],
+  ["A person who studies fish", "Ichthyologist"],
+  ["A person who studies fungi", "Mycologist"],
+  ["A person who studies diseases", "Pathologist"],
+  ["A person who studies crime", "Criminologist"],
+  ["A person who studies the skin", "Dermatologist"],
+  ["A person who studies genetics", "Geneticist"],
+  ["A person who studies cells", "Cytologist"],
+  ["A person who studies the human body", "Anatomist"],
+  ["A person who studies sound", "Acoustician"],
+  ["A person who studies earthquakes", "Seismologist"],
+  ["A person who studies maps", "Cartographer"],
+  ["A person who studies languages", "Linguist"],
+  ["A person who studies the moon", "Selenologist"],
+  ["A person who studies population trends", "Demographer"],
+  ["A person who studies bacteria", "Bacteriologist"],
+  ["A person who studies poisons", "Toxicologist"],
+  ["A person who studies human behavior", "Sociologist"],
+  ["A person who studies viruses", "Virologist"],
+  ["A person who studies space", "Cosmologist"],
+  ["A person who studies laws", "Jurist"],
+  ["A person who studies the brain", "Neurologist"],
+  ["A person who studies handwriting", "Graphologist"],
+  ["A person who studies blood", "Hematologist"],
+  ["A person who studies money", "Economist"],
+  ["A person who studies caves", "Speleologist"],
+  ["A person who studies plants for medicine", "Herbalist"],
+  ["A person who studies sleep", "Somnologist"],
+  ["A person who studies bones", "Osteologist"],
+  ["A person who studies teeth", "Dentist"],
+  ["A person who studies old age", "Gerontologist"],
+  ["A person who studies human speech", "Phonetician"],
+  ["A person who studies law enforcement", "Penologist"],
+  ["A person who studies the economy", "Macroeconomist"],
+  ["A person who studies climate change", "Climatologist"],
+  ["A person who studies bridges", "Engineer"],
+  ["A person who studies statistics", "Statistician"],
+  ["A person who studies aviation", "Aeronautical Engineer"],
+  ["A person who studies the Sun", "Heliophysicist"],
+  ["A person who studies metals", "Metallurgist"],
+  ["A person who studies fluid motion", "Hydrodynamicist"],
+  ["A person who studies space objects", "Astrophysicist"],
+  ["A person who studies human remains", "Forensic Anthropologist"],
+  ["A person who studies viruses and bacteria", "Microbiologist"],
+  ["A person who studies energy", "Physicist"],
+  ["A person who studies time", "Horologist"],
+  ["A person who studies plants for food", "Agronomist"],
+  ["A person who studies and predicts the future", "Futurist"],
+  ["A person who studies symmetry", "Symmetrologist"],
+  ["A person who studies the heart", "Cardiologist"],
+  ["A person who studies fish farming", "Aquaculturist"],
+  ["A person who studies human nutrition", "Dietitian"],
+  ["A person who studies water", "Hydrologist"],
+  ["A person who studies forests", "Forester"],
+  ["A person who studies motion", "Kinesiologist"],
+  ["A person who studies the nervous system", "Neuroscientist"],
+  ["A person who studies skin diseases", "Dermatopathologist"],
+  ["A person who studies volcanoes", "Volcanologist"],
+  ["A person who studies waste management", "Environmental Scientist"],
+  ["A person who studies robotics", "Roboticist"],
+  ["A person who studies artificial intelligence", "AI Researcher"],
+  ["A person who studies financial systems", "Actuary"],
+  ["A person who studies materials science", "Materials Scientist"],
+  ["A person who studies crime scenes", "Forensic Scientist"],
+  ["A person who studies human culture", "Ethnologist"],
+  ["A person who studies media and its impact", "Media Analyst"],
+  ["A person who studies human perception", "Perceptual Psychologist"],
+  ["A person who studies ancient writing", "Epigraphist"],
+  ["A person who studies aviation safety", "Aviation Safety Analyst"],
+  ["A person who studies genetic disorders", "Genetic Counselor"],
+  ["A person who studies scientific measurement", "Metrologist"],
+  ["A person who studies ancient artifacts", "Artifact Analyst"],
+  ["A person who studies advertising", "Marketing Analyst"],
+  ["A person who studies advertising impact", "Consumer Psychologist"],
+  ["A person who studies stock markets", "Stock Analyst"],
+  ["A person who studies social media trends", "Social Media Analyst"],
+  ["A person who studies bridges and roads", "Civil Engineer"],
+  ["A person who studies architecture", "Architect"],
+  ["A person who studies building structures", "Structural Engineer"],
+  ["A person who studies chemistry", "Chemist"],
+  ["A person who studies space weather", "Space Physicist"],
+  ["A person who studies defense technology", "Defense Analyst"],
+  ["A person who studies mechanical systems", "Mechanical Engineer"],
+  ["A person who studies plant genetics", "Plant Geneticist"],
+  ["A person who studies climate science", "Climatologist"],
+  ["A person who studies sustainable energy", "Energy Analyst"],
+  ["A person who studies earthquakes and planetary shifts", "Geophysicist"],
+  ["A person who studies government policies", "Political Scientist"],
+  ["A person who studies ethical philosophy", "Ethicist"],
+  ["A person who studies laws of motion", "Kineticist"],
+  ["A person who studies cybersecurity", "Cybersecurity Analyst"]
+  ["A person who studies dreams", "Oneirologist"],
+  ["A person who studies sounds and their effects", "Phonologist"],
+  ["A person who studies fingerprints", "Dactylographer"],
+  ["A person who studies the universe’s origin", "Cosmogonist"],
+  ["A person who studies celestial mechanics", "Astrodynamicist"],
+  ["A person who studies human emotions", "Affectologist"],
+  ["A person who studies light", "Optician"],
+  ["A person who studies insect behavior", "Ethnoentomologist"],
+  ["A person who studies planetary atmospheres", "Planetary Scientist"],
+  ["A person who studies human movement", "Biomechanist"],
+  ["A person who studies energy transfer", "Thermodynamicist"],
+  ["A person who studies drug interactions", "Pharmacologist"],
+  ["A person who studies crime psychology", "Forensic Psychologist"],
+  ["A person who studies ancient coins", "Numismatic Historian"],
+  ["A person who studies human settlements", "Urbanist"],
+  ["A person who studies natural disasters", "Disaster Scientist"],
+  ["A person who studies how people think", "Cognitive Scientist"],
+  ["A person who studies psychological disorders", "Clinical Psychologist"],
+  ["A person who studies human memory", "Mnemonist"],
+  ["A person who studies microchips", "Microelectronics Engineer"],
+  ["A person who studies aviation medicine", "Aerospace Medical Specialist"],
+  ["A person who studies animal intelligence", "Comparative Psychologist"],
+  ["A person who studies human body language", "Kinesic Analyst"],
+  ["A person who studies the effects of aging", "Biogerontologist"],
+  ["A person who studies muscle movement", "Myologist"],
+  ["A person who studies bioethics", "Bioethicist"],
+  ["A person who studies neural networks", "Computational Neuroscientist"],
+  ["A person who studies AI ethics", "AI Ethicist"],
+  ["A person who studies renewable energy sources", "Renewable Energy Specialist"],
+  ["A person who studies planetary geology", "Planetary Geologist"],
+  ["A person who studies glaciers", "Glaciologist"],
+  ["A person who studies the Arctic", "Arctic Researcher"],
+  ["A person who studies wildlife conservation", "Conservation Biologist"],
+  ["A person who studies animal migration", "Migration Ecologist"],
+  ["A person who studies wind energy", "Wind Energy Engineer"],
+  ["A person who studies biofuels", "Biofuel Scientist"],
+  ["A person who studies fossils of plants", "Paleobotanist"],
+  ["A person who studies extinct animals", "Paleoecologist"],
+  ["A person who studies space radiation", "Space Radiation Scientist"],
+  ["A person who studies neutrinos", "Neutrino Physicist"],
+  ["A person who studies planetary rings", "Ring System Scientist"],
+  ["A person who studies black holes", "Black Hole Researcher"],
+  ["A person who studies space exploration", "Astrobiologist"],
+  ["A person who studies ocean depths", "Deep-Sea Explorer"],
+  ["A person who studies sound therapy", "Sound Healer"],
+  ["A person who studies rare minerals", "Mineralogist"],
+  ["A person who studies hidden historical texts", "Paleographer"],
+  ["A person who studies deep-sea creatures", "Deep-Sea Biologist"],
+  ["A person who studies human sleep cycles", "Chronobiologist"],
+  ["A person who studies the interaction of drugs with the brain", "Neuropharmacologist"],
+  ["A person who studies speech disorders", "Speech Pathologist"],
+  ["A person who studies volcanic eruptions", "Volcano Seismologist"],
+  ["A person who studies fluid motion in space", "Astrofluid Dynamicist"],
+  ["A person who studies weather prediction", "Synoptic Meteorologist"],
+  ["A person who studies hurricanes", "Hurricane Researcher"],
+  ["A person who studies earthquakes in deep oceans", "Seafloor Seismologist"],
+  ["A person who studies extraterrestrial life", "Exobiologist"],
+  ["A person who studies space farming", "Space Agronomist"],
+  ["A person who studies artificial ecosystems", "Eco-Technologist"],
+  ["A person who studies underground water sources", "Hydrogeologist"],
+  ["A person who studies robotics for healthcare", "Medical Roboticist"],
+  ["A person who studies the physics of light", "Photonics Engineer"],
+  ["A person who studies space-time", "Relativity Theorist"],
+  ["A person who studies deep Earth structures", "Geotectonic Specialist"],
+  ["A person who studies chemical reactions in living organisms", "Biochemist"],
+  ["A person who studies endangered languages", "Linguistic Anthropologist"],
+  ["A person who studies the impact of AI on jobs", "AI Socio-Economist"],
+  ["A person who studies asteroid impact risks", "Asteroid Impact Analyst"],
+  ["A person who studies human DNA mapping", "Genomic Scientist"],
+  ["A person who studies skin cell regeneration", "Regenerative Dermatologist"],
+  ["A person who studies the health of coral reefs", "Coral Ecologist"],
+  ["A person who studies plant diseases", "Phytopathologist"],
+  ["A person who studies algae for biofuels", "Algae Technologist"],
+  ["A person who studies toxic plants", "Toxic Botanist"],
+  ["A person who studies forest restoration", "Reforestation Scientist"],
+  ["A person who studies marine mammals", "Marine Mammalogist"],
+  ["A person who studies sustainable urban planning", "Sustainable Architect"],
+  ["A person who studies solar panel efficiency", "Solar Energy Engineer"],
+  ["A person who studies climate migration", "Climate Migration Analyst"],
+  ["A person who studies eco-friendly packaging", "Sustainable Packaging Expert"],
+  ["A person who studies organic farming methods", "Organic Farming Scientist"],
+  ["A person who studies sustainable fisheries", "Fisheries Biologist"],
+  ["A person who studies aviation safety technology", "Flight Safety Engineer"],
+  ["A person who studies smart city planning", "Urban Technologist"],
+  ["A person who studies exoplanet atmospheres", "Exoplanetary Scientist"],
+  ["A person who studies genetic mutations", "Genetic Mutation Analyst"],
+  ["A person who studies neurological disorders", "Neurogeneticist"],
+  ["A person who studies virtual reality effects on the brain", "VR Neuroscientist"],
+  ["A person who studies blockchain technology", "Blockchain Analyst"],
+  ["A person who studies the psychology of advertising", "Advertising Psychologist"],
+  ["A person who studies brain-machine interfaces", "Neurotechnologist"],
+  ["A person who studies sustainable fashion", "Eco-Fashion Scientist"],
+  ["A person who studies the psychology of music", "Music Psychologist"],
+  ["A person who studies human habits and rituals", "Cultural Anthropologist"],
+  ["A person who studies ethical hacking", "Ethical Hacker"],
+  ["A person who studies cybersecurity threats", "Cybersecurity Researcher"]
+        ];
+        
+        let currentPage = 0;
+        const rowsPerPage = 10;
+        
+        function renderTable() {
+            const tbody = document.getElementById("table-body");
+            tbody.innerHTML = "";
+            const start = currentPage * rowsPerPage;
+            const end = start + rowsPerPage;
+            
+            data.slice(start, end).forEach(([phrase, word]) => {
+                const row = `<tr><td class='border border-gray-300 p-3'>${phrase}</td><td class='border border-gray-300 p-3'>${word}</td></tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+        
+        function nextPage() {
+            if ((currentPage + 1) * rowsPerPage < data.length) {
+                currentPage++;
+                renderTable();
+            }
+        }
+        
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                renderTable();
+            }
+        }
+        
+        renderTable();
+    </script>
+</body>
+</html>
